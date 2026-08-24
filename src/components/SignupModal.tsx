@@ -159,7 +159,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             </div>
 
             <div className="text-[0.72rem] text-[#000000]/60 leading-normal">
-              By continuing, you will be redirected to our verified open-banking partner ({BANK_LINK_PROVIDER}) via {BANK_LINK_REDIRECT_URI}. Kumo does not store banking passwords.
+              By continuing, you will be redirected to our verified open-banking partner via {BANK_LINK_REDIRECT_URI}. Kumo does not store banking passwords.
             </div>
 
             <button
