@@ -1,65 +1,132 @@
 @import "tailwindcss";
 
-@theme {
-  --color-ink: #0E2203;
-  --color-ink-inverse: #EAF3DE;
-  --color-amber: #D99B26;
-  --color-lime: #C3E85C;
-  --color-sky: #6FCFEB;
-  --color-coral: #F2A65A;
-  --color-surface-page: #FCFBF7;
-  --color-surface-1: #F5F6EF;
-  --color-surface-2: #EAF3DE;
-  --color-brand-green: #2F6E2E;
-  --color-chip-peach: #FCE7CC;
-  --color-chip-blue: #D6F0F6;
-
-  --font-display: "Georgia", "Times New Roman", serif;
-  --font-body: "Helvetica Neue", Arial, sans-serif;
-
-  --ease-kumo: cubic-bezier(0.22, 1, 0.36, 1);
+:root {
+  --font-display: "Suisse Intl Black", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Suisse Intl", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ink: #0F0C15;
+  --ink-inverse: #FCFBFB;
+  --muted: rgba(15, 12, 21, 0.5);
+  --muted-inverse: rgba(252, 251, 251, 0.55);
+  --bg-page: #FFFFFF;
+  --bg-surface-1: #FCFBFB;
+  --bg-surface-2: #F5F4F4;
+  --accent: #6E2CFF;
+  --accent-hover: #5A24D9;
+  --lime: #DAFF35;
+  --sky: #59FCF9;
+  --pastel-1: #EAE7FC;
+  --pastel-2: #F8FFDA;
+  --pastel-3: #FDDCC9;
+  --text-xs: 0.64rem;
+  --text-sm: 0.8rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5625rem;
+  --text-xl: 1.953rem;
+  --text-2xl: 2.441rem;
+  --text-3xl: 3.052rem;
+  --text-4xl: 3.815rem;
+  --text-5xl: 4.768rem;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 40px;
+  --radius-pill: 9999px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --headline-ease: cubic-bezier(1, 0.02, 0, 0.85);
+  --flip-ease: cubic-bezier(0.38, 0.92, 0.18, 1);
+  --carousel-ease: cubic-bezier(0.87, 0.12, 0.11, 0.88);
+  --reveal-ease: cubic-bezier(0.38, 0.13, 0, 0.88);
+  --max-width: 74rem;
+  --pad-x: clamp(1.25rem, 5vw, 3.5rem);
+  --section-gap: clamp(4.5rem, 12vw, 9rem);
+  --header-h: 4.5rem;
+  --footer-h: 460px;
 }
 
-html, body {
-  overflow-x: hidden;
-  background-color: #FCFBF7;
-  color: #0E2203;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg-page);
+  line-height: 1.5;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom animation keyframes for LogoBar continuous carousel */
-@keyframes kumo-logo-loop {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+.display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 0.88;
 }
 
-.animate-logo-loop {
-  display: flex;
-  width: max-content;
-  animation: kumo-logo-loop 18s linear infinite;
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-inline: var(--pad-x);
 }
 
-.animate-logo-loop:hover {
-  animation-play-state: paused;
+.muted {
+  color: var(--muted);
 }
 
-/* Diagonal stripes pattern for hero placeholder */
-.hero-placeholder-stripes {
-  background-image: repeating-linear-gradient(135deg, #0E2203 0, #0E2203 10px, #16330a 10px, #16330a 20px);
+.badge {
+  display: inline-block;
+  font-size: var(--text-sm);
+  background: var(--lime);
+  color: var(--ink);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
-/* Accessibility: prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+.btn-link {
+  font-family: var(--font-body);
+  color: var(--ink);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-link span {
+  color: var(--accent);
+  transition: transform 200ms var(--ease-out);
+}
+
+.btn-link:hover span {
+  transform: translateX(4px);
+}
+
+/* Floating animation for security cards */
+@keyframes float-tile {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float-1 {
+  animation: float-tile 4.5s var(--ease-out) infinite;
+}
+
+.animate-float-2 {
+  animation: float-tile 4.5s var(--ease-out) infinite 0.4s;
+}
+
+.animate-float-3 {
+  animation: float-tile 4.5s var(--ease-out) infinite 0.8s;
 }

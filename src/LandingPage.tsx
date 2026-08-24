@@ -1,157 +1,116 @@
-/**
- * ==============================================================================
- * KUMO BACKEND INTEGRATION SEAMS & ENDPOINT SPECIFICATIONS
- * ==============================================================================
- * This landing page connects to the following backend services and endpoints:
- *
- * 1. Bank-Link Flow:
- *    - POST /api/bank-link/initiate
- *      Payload: { tenantId?: string, provider: 'stitch' | 'truid', redirectUri: string }
- *      Returns: { redirectUrl: string, sessionId: string }
- *      Description: Initializes a secure Open Banking session with the provider.
- *
- *    - POST /api/webhooks/bank-link
- *      Payload: { event: 'PAYMENT_DETECTED' | 'LINK_SUCCESS', data: object }
- *      Description: Webhook receiver from Stitch / truID for async confirmation.
- *
- *    - GET /bank-link/callback (Frontend Route / Redirect Handler)
- *      Params: ?session=...&status=success
- *      Description: Receives tenant back from Open Banking partner authentication.
- *
- * 2. Tenant Registration:
- *    - POST /api/tenants/signup
- *      Payload: { email: string, phone: string }
- *      Returns: { success: boolean, tenantId: string }
- *      Description: Creates initial unverified tenant profile prior to bank link.
- *
- * 3. Landlord / Property Registration:
- *    - POST /api/landlords/join
- *      Payload: { name: string, email: string, propertyCount?: string }
- *      Returns: { success: boolean, landlordId: string }
- *      Description: Captures landlord lead / property portfolio listing.
- *
- * 4. Configuration:
- *    - Defined in /src/config.ts (API_BASE_URL, BANK_LINK_PROVIDER, BANK_LINK_REDIRECT_URI).
- * ==============================================================================
- */
-
 import React, { useState } from 'react';
 import { Header } from './components/Header.tsx';
 import { Hero } from './components/Hero.tsx';
 import { LogoBar } from './components/LogoBar.tsx';
-import { FeatureSplit } from './components/FeatureSplit.tsx';
+import { ScrollStory } from './components/ScrollStory.tsx';
+import { FlipGrid } from './components/FlipGrid.tsx';
+import { LinkGlow } from './components/LinkGlow.tsx';
+import { BusinessSplit } from './components/BusinessSplit.tsx';
 import { ExpandGrid } from './components/ExpandGrid.tsx';
-import { StepBand } from './components/StepBand.tsx';
-import { SecuritySplit } from './components/SecuritySplit.tsx';
 import { FAQ } from './components/FAQ.tsx';
-import { CTA } from './components/CTA.tsx';
+import { LargeCTA } from './components/LargeCTA.tsx';
 import { Footer } from './components/Footer.tsx';
 import { SignupModal } from './components/SignupModal.tsx';
 import { Reveal } from './components/Reveal.tsx';
 
 export const LandingPage: React.FC = () => {
   const [view, setView] = useState<'tenant' | 'business'>('tenant');
-  const [modalState, setModalState] = useState<{
-    isOpen: boolean;
-    mode: 'tenant' | 'business' | 'login';
-  }>({
-    isOpen: false,
-    mode: 'tenant',
-  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<'tenant' | 'business' | 'login'>('tenant');
 
-  const handleNavigate = (path: string) => {
-    if (path.startsWith('#')) {
-      const el = document.getElementById(path.replace('#', ''));
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else if (path === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const openSignup = (mode: 'tenant' | 'business' = view) => {
-    setModalState({ isOpen: true, mode });
+  const openSignup = (mode: 'tenant' | 'business' = 'tenant') => {
+    setModalMode(mode);
+    setIsModalOpen(true);
   };
 
   const openLogin = () => {
-    setModalState({ isOpen: true, mode: 'login' });
+    setModalMode('login');
+    setIsModalOpen(true);
   };
 
-  const closeModal = () => {
-    setModalState((prev) => ({ ...prev, isOpen: false }));
+  const handleNavigate = (path: string) => {
+    if (path.startsWith('#')) {
+      const element = document.querySelector(path);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#FCFBF7] text-[#0E2203] flex flex-col font-['Helvetica_Neue',_Arial,_sans-serif] overflow-x-hidden w-full">
-      {/* 1. Header (Not wrapped in Reveal) */}
+    <div className="min-h-screen bg-[#0F0C15] text-[#0F0C15] flex flex-col font-['Suisse_Intl',_-apple-system,_BlinkMacSystemFont,_'Segoe_UI',_Roboto,_sans-serif] overflow-x-clip w-full selection:bg-[#DAFF35] selection:text-[#0F0C15]">
+      {/* 1. Header Navigation */}
       <Header
         activeView={view}
         onToggleView={(newView) => setView(newView)}
         onNavigate={handleNavigate}
-        onOpenSignup={() => openSignup(view)}
+        onOpenSignup={openSignup}
         onOpenLogin={openLogin}
       />
 
-      {/* 2. Hero (Not wrapped in Reveal) */}
-      <Hero
-        onNavigate={handleNavigate}
-        onOpenSignup={() => openSignup('tenant')}
-      />
-
-      {/* 3. LogoBar */}
-      <Reveal>
-        <LogoBar onNavigate={handleNavigate} />
-      </Reveal>
-
-      {/* 4. FeatureSplit */}
-      <Reveal>
-        <FeatureSplit
+      {/* Main Content Container with Rounded Bottom for Reveal Shell */}
+      <main className="relative z-10 bg-white rounded-b-[32px] md:rounded-b-[48px] overflow-hidden shadow-2xl pb-6">
+        {/* 2. Hero Component */}
+        <Hero
           view={view}
           onNavigate={handleNavigate}
-          onActionClick={() => openSignup(view)}
+          onOpenSignup={openSignup}
         />
-      </Reveal>
 
-      {/* 5. ExpandGrid */}
-      <Reveal>
-        <ExpandGrid
-          view={view}
-          onNavigate={handleNavigate}
-        />
-      </Reveal>
+        {/* Dynamic View Sections */}
+        {view === 'tenant' ? (
+          <div id="tenant-panel" className="flex flex-col">
+            {/* 3. 3D Logo Carousel */}
+            <Reveal>
+              <LogoBar onNavigate={handleNavigate} />
+            </Reveal>
 
-      {/* 6. StepBand */}
-      <Reveal>
-        <StepBand onNavigate={handleNavigate} />
-      </Reveal>
+            {/* 4. Sticky Scroll Story with Phone Mockup */}
+            <ScrollStory />
 
-      {/* 7. SecuritySplit */}
-      <Reveal>
-        <SecuritySplit onNavigate={handleNavigate} />
-      </Reveal>
+            {/* 5. Flip-Tile Directory Grid */}
+            <Reveal>
+              <FlipGrid />
+            </Reveal>
 
-      {/* 8. FAQ */}
-      <Reveal>
-        <FAQ onNavigate={handleNavigate} />
-      </Reveal>
+            {/* 6. Bank-Link Glow Section */}
+            <Reveal>
+              <LinkGlow onNavigate={handleNavigate} />
+            </Reveal>
+          </div>
+        ) : (
+          <div id="business-panel" className="flex flex-col">
+            {/* Business Split Section */}
+            <Reveal>
+              <BusinessSplit onOpenSignup={() => openSignup('business')} />
+            </Reveal>
 
-      {/* 9. CTA */}
-      <Reveal>
-        <CTA
-          onNavigate={handleNavigate}
-          onOpenSignup={() => openSignup('tenant')}
-        />
-      </Reveal>
+            {/* Business Expand Cards Grid */}
+            <Reveal>
+              <ExpandGrid />
+            </Reveal>
+          </div>
+        )}
 
-      {/* 10. Footer */}
+        {/* 7. FAQ Accordion */}
+        <Reveal>
+          <FAQ />
+        </Reveal>
+
+        {/* 8. Large Glowing CTA */}
+        <Reveal>
+          <LargeCTA onOpenSignup={() => openSignup(view)} />
+        </Reveal>
+      </main>
+
+      {/* 9. Fixed Bottom Reveal Footer */}
       <Footer onNavigate={handleNavigate} />
 
-      {/* Interactive Signup / Bank Link Modal */}
+      {/* 10. Signup / Login Interactive Modal */}
       <SignupModal
-        isOpen={modalState.isOpen}
-        onClose={closeModal}
-        mode={modalState.mode}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        mode={modalMode}
       />
     </div>
   );

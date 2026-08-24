@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 
-interface FAQProps {
-  onNavigate?: (path: string) => void;
-}
-
 interface FAQItem {
   question: string;
   answer: string;
@@ -25,75 +21,74 @@ const FAQ_ITEMS: FAQItem[] = [
     answer:
       'yes. we use bank-grade, licensed verification partners and never store your banking login details.',
   },
+  {
+    question: 'which south african banks are supported',
+    answer:
+      'we support all major south african banks including capitec, fnb, standard bank, nedbank, absa, tymebank, and discovery bank through licensed open banking protocols.',
+  },
+  {
+    question: 'what happens if i move to a new property',
+    answer:
+      'your rent history moves with you. when you start paying rent to a new account, simply confirm the new recurring payment in your kumo dashboard.',
+  },
 ];
 
-export const FAQ: React.FC<FAQProps> = () => {
-  // First item open by default
+export const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const toggleItem = (idx: number) => {
-    setOpenIndex((prev) => (prev === idx ? null : idx));
+  const toggle = (idx: number) => {
+    setOpenIndex((current) => (current === idx ? null : idx));
   };
 
   return (
-    <section id="faq-section" className="bg-[#FCFBF7] py-12 md:py-24 w-full">
-      <div className="max-w-6xl mx-auto px-5 md:px-14">
-        <h2
-          id="faq-headline"
-          className="text-[clamp(1.3rem,3.2vw,1.9rem)] font-bold tracking-[-0.03em] leading-[0.92] text-[#0E2203] font-['Georgia',_'Times_New_Roman',_serif] mb-12"
-        >
-          frequently asked
-        </h2>
+    <section id="faq" className="wrap py-12 md:py-16">
+      <h3 className="display text-[clamp(1.6rem,4vw,2.5rem)] text-[#0F0C15] mb-6">
+        frequently asked
+      </h3>
 
-        <div className="flex flex-col min-w-0">
-          {FAQ_ITEMS.map((item, idx) => {
-            const isOpen = openIndex === idx;
+      <div className="border-t border-[#0F0C15]">
+        {FAQ_ITEMS.map((item, idx) => {
+          const isOpen = openIndex === idx;
 
-            return (
-              <div
-                key={`faq-${idx}`}
-                id={`faq-item-${idx}`}
-                className="border-t border-b border-[#0E2203]/[0.12] -mt-[1px] min-w-0"
+          return (
+            <div
+              key={`faq-${item.question}`}
+              id={`faq-item-${idx}`}
+              className="border-b border-[#0F0C15]"
+            >
+              <button
+                type="button"
+                onClick={() => toggle(idx)}
+                className="w-full py-5 flex items-center justify-between text-left cursor-pointer select-none group"
+                aria-expanded={isOpen}
               >
-                <button
-                  type="button"
-                  onClick={() => toggleItem(idx)}
-                  className="w-full py-4 flex items-center justify-between text-left cursor-pointer select-none group min-w-0"
-                  aria-expanded={isOpen}
-                >
-                  <span className="text-[clamp(0.85rem,1.4vw,1rem)] font-medium text-[#0E2203] min-w-0 pr-2">
-                    {item.question}
-                  </span>
-                  <span
-                    className="text-[clamp(1.2rem,3vw,1.6rem)] font-light text-[#0E2203] ml-4 transition-transform leading-none shrink-0"
-                    style={{
-                      transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
-                      transitionDuration: '320ms',
-                      transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-                    }}
-                  >
-                    +
-                  </span>
-                </button>
-
-                <div
-                  className="grid transition-[grid-template-rows] overflow-hidden"
+                <span className="font-semibold text-[clamp(0.95rem,2vw,1.25rem)] text-[#0F0C15] pr-4">
+                  {item.question}
+                </span>
+                <span
+                  className="text-2xl font-light text-[#0F0C15] shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   style={{
-                    gridTemplateRows: isOpen ? '1fr' : '0fr',
-                    transitionDuration: '360ms',
-                    transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                    transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
                   }}
                 >
-                  <div className="min-h-0">
-                    <p className="text-[clamp(0.72rem,1.6vw,0.85rem)] text-[#0E2203]/[0.55] leading-[1.5] pb-4 max-w-none sm:max-w-[65ch] break-words">
-                      {item.answer}
-                    </p>
-                  </div>
-                </div>
+                  +
+                </span>
+              </button>
+
+              <div
+                className="overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                style={{
+                  maxHeight: isOpen ? '300px' : '0px',
+                  opacity: isOpen ? 1 : 0,
+                }}
+              >
+                <p className="text-[#0F0C15]/60 text-[clamp(0.85rem,1.5vw,1rem)] leading-relaxed pb-6 max-w-[65ch]">
+                  {item.answer}
+                </p>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

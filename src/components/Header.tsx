@@ -1,78 +1,87 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface HeaderProps {
-  onNavigate?: (path: string) => void;
   activeView: 'tenant' | 'business';
   onToggleView: (view: 'tenant' | 'business') => void;
-  onOpenSignup?: () => void;
+  onNavigate?: (path: string) => void;
+  onOpenSignup?: (mode?: 'tenant' | 'business') => void;
   onOpenLogin?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  onNavigate,
   activeView,
   onToggleView,
+  onNavigate,
   onOpenSignup,
   onOpenLogin,
 }) => {
-  const [isVisible, setIsVisible] = useState(true);
-  const lastScrollY = useRef(0);
+  const [isHidden, setIsHidden] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    let lastY = window.scrollY;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY < 10) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY.current && currentScrollY > 72) {
-        // Scrolling down -> hide header
-        setIsVisible(false);
-      } else if (currentScrollY < lastScrollY.current) {
-        // Scrolling up -> show header
-        setIsVisible(true);
+      const currentY = window.scrollY;
+      if (currentY > lastY && currentY > 120) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
       }
-      lastScrollY.current = currentScrollY;
+      lastY = currentY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = '';
+    }
+  }, [isMobileMenuOpen]);
+
+  const handleLinkClick = (hash: string) => {
+    setIsMobileMenuOpen(false);
+    onNavigate?.(hash);
+  };
+
   return (
-    <header
-      id="kumo-header"
-      className="sticky top-0 z-40 w-full bg-[#FCFBF7] border-b border-[#0E2203]/[0.08] transition-transform"
-      style={{
-        transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
-        transitionDuration: '320ms',
-        transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      }}
-    >
-      <div className="max-w-6xl mx-auto px-5 md:px-14">
-        {/* Desktop Layout (768px+) */}
-        <div className="hidden md:flex h-[72px] items-center justify-between min-w-0">
-          <div className="flex items-center gap-8 min-w-0">
+    <>
+      <header
+        id="kumo-header"
+        className={`sticky top-0 z-50 bg-white border-b border-[#0F0C15]/[0.08] transition-transform duration-300 ${
+          isHidden ? '-translate-y-full' : 'translate-y-0'
+        }`}
+        style={{ transitionTimingFunction: 'var(--ease-out)' }}
+      >
+        <div className="wrap flex items-center justify-between h-[4.5rem] gap-4">
+          {/* Logo & View Switch */}
+          <div className="flex items-center gap-7">
             <button
               id="header-logo-button"
-              onClick={() => onNavigate?.('/')}
-              className="text-[clamp(1.3rem,3.2vw,1.9rem)] font-bold tracking-[-0.03em] leading-[0.92] text-[#0E2203] font-['Georgia',_'Times_New_Roman',_serif] cursor-pointer shrink-0"
+              onClick={() => handleLinkClick('#')}
+              className="logo display text-[1.5625rem] text-[#0F0C15] cursor-pointer hover:opacity-90 transition-opacity"
             >
               kumo
             </button>
 
-            {/* Pill Switch */}
-            <div className="flex items-center p-1 rounded-full bg-[#F5F6EF] border border-[#0E2203]/[0.08] shrink-0">
+            {/* Desktop Switch */}
+            <div
+              id="header-view-switch"
+              className="hidden min-[900px]:flex items-center bg-[#F5F4F4] rounded-full p-[3px]"
+            >
               <button
                 id="header-tenant-tab"
                 type="button"
                 onClick={() => onToggleView('tenant')}
-                className={`px-4 py-1.5 text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium rounded-full transition-colors cursor-pointer ${
+                className={`px-4 py-2 text-[0.8rem] rounded-full font-medium transition-colors cursor-pointer ${
                   activeView === 'tenant'
-                    ? 'bg-[#0E2203] text-[#EAF3DE]'
-                    : 'bg-transparent text-[#0E2203] hover:text-[#0E2203]/80'
+                    ? 'bg-[#0F0C15] text-[#FCFBFB]'
+                    : 'bg-transparent text-[#0F0C15] hover:text-[#0F0C15]/80'
                 }`}
-                style={{
-                  transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-                }}
               >
                 Tenant
               </button>
@@ -80,98 +89,158 @@ export const Header: React.FC<HeaderProps> = ({
                 id="header-business-tab"
                 type="button"
                 onClick={() => onToggleView('business')}
-                className={`px-4 py-1.5 text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium rounded-full transition-colors cursor-pointer ${
+                className={`px-4 py-2 text-[0.8rem] rounded-full font-medium transition-colors cursor-pointer ${
                   activeView === 'business'
-                    ? 'bg-[#0E2203] text-[#EAF3DE]'
-                    : 'bg-transparent text-[#0E2203] hover:text-[#0E2203]/80'
+                    ? 'bg-[#0F0C15] text-[#FCFBFB]'
+                    : 'bg-transparent text-[#0F0C15] hover:text-[#0F0C15]/80'
                 }`}
-                style={{
-                  transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-                }}
               >
                 Business
               </button>
             </div>
           </div>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-6 shrink-0">
+          {/* Right Actions (Desktop) */}
+          <div className="hidden min-[900px]:flex items-center gap-5">
             <button
               id="header-login-button"
               type="button"
               onClick={() => onOpenLogin?.()}
-              className="text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium text-[#0E2203] hover:opacity-80 transition-opacity cursor-pointer"
+              className="text-[0.8rem] font-medium text-[#0F0C15] hover:opacity-75 transition-opacity cursor-pointer"
             >
               Log in
             </button>
+
+            {/* Split CTA Button with Plus Icon */}
             <button
               id="header-get-started-button"
               type="button"
-              onClick={() => onOpenSignup?.()}
-              className="bg-[#2F6E2E] text-white px-6 py-3 text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium rounded-full hover:opacity-90 transition-opacity cursor-pointer whitespace-nowrap"
+              onClick={() => onOpenSignup?.(activeView)}
+              className="inline-flex items-center gap-[2px] p-0 border-none cursor-pointer group active:scale-[0.98] transition-transform"
             >
-              Get started
+              <span className="px-5 py-3 rounded-full bg-[#6E2CFF] text-white text-[0.8rem] font-medium group-hover:bg-[#5A24D9] transition-colors whitespace-nowrap">
+                Get started
+              </span>
+              <span className="w-10 h-10 rounded-full bg-[#6E2CFF] group-hover:bg-[#5A24D9] transition-colors flex items-center justify-center relative shrink-0">
+                <span className="absolute w-[11px] h-[1.5px] bg-white rounded-[1px]" />
+                <span className="absolute w-[1.5px] h-[11px] bg-white rounded-[1px]" />
+              </span>
             </button>
           </div>
+
+          {/* Mobile Menu Toggle Button */}
+          <button
+            id="mobile-menu-toggle"
+            type="button"
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="min-[900px]:hidden font-bold uppercase text-[0.8rem] text-[#0F0C15] bg-transparent border-none cursor-pointer py-2 px-1 tracking-wider"
+          >
+            Menu
+          </button>
         </div>
+      </header>
 
-        {/* Mobile Layout (<768px): Two rows */}
-        <div className="md:hidden py-3 flex flex-col gap-3 min-w-0">
-          {/* Row 1: Logo & Get Started Button */}
-          <div className="flex items-center justify-between min-w-0">
+      {/* Fullscreen Mobile Menu Drawer */}
+      <div
+        id="mobile-fullscreen-menu"
+        className={`fixed inset-0 z-[200] transition-opacity duration-300 ${
+          isMobileMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+      >
+        <div
+          className={`absolute inset-0 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.38,0.13,0,0.88)] ${
+            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+          style={{
+            background:
+              'linear-gradient(to bottom, #ffffff 0%, #ffffff 35%, #F8FFDA 70%, #DAFF35 100%)',
+          }}
+        >
+          {/* Top Row */}
+          <div className="wrap flex justify-between items-center h-[4.5rem] w-full">
+            <span className="logo display text-[1.5625rem] text-[#0F0C15]">kumo</span>
             <button
-              id="header-mobile-logo-button"
-              onClick={() => onNavigate?.('/')}
-              className="text-[clamp(1.3rem,3.2vw,1.9rem)] font-bold tracking-[-0.03em] leading-[0.92] text-[#0E2203] font-['Georgia',_'Times_New_Roman',_serif] cursor-pointer shrink-0"
-            >
-              kumo
-            </button>
-
-            <button
-              id="header-mobile-get-started-button"
+              id="mobile-menu-close-button"
               type="button"
-              onClick={() => onOpenSignup?.()}
-              className="bg-[#2F6E2E] text-white px-5 py-2.5 text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium rounded-full hover:opacity-90 transition-opacity cursor-pointer whitespace-nowrap shrink-0"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="font-bold uppercase text-[0.8rem] text-[#0F0C15] bg-transparent border-none cursor-pointer py-2 px-1 tracking-wider"
             >
-              Get started
+              Close
             </button>
           </div>
 
-          {/* Row 2: Full-width Centered Pill Switch */}
-          <div className="flex items-center justify-center p-1 rounded-full bg-[#F5F6EF] border border-[#0E2203]/[0.08] w-full min-w-0">
+          {/* Body */}
+          <div className="flex-1 flex flex-col items-center justify-center gap-8 px-6 text-center">
+            {/* Mobile View Switch */}
+            <div className="flex items-center bg-[#F5F4F4] rounded-full p-[4px] border border-[#0F0C15]/10 shadow-sm">
+              <button
+                type="button"
+                onClick={() => onToggleView('tenant')}
+                className={`px-6 py-2.5 text-[0.85rem] rounded-full font-medium transition-colors cursor-pointer ${
+                  activeView === 'tenant'
+                    ? 'bg-[#0F0C15] text-[#FCFBFB]'
+                    : 'bg-transparent text-[#0F0C15]'
+                }`}
+              >
+                Tenant
+              </button>
+              <button
+                type="button"
+                onClick={() => onToggleView('business')}
+                className={`px-6 py-2.5 text-[0.85rem] rounded-full font-medium transition-colors cursor-pointer ${
+                  activeView === 'business'
+                    ? 'bg-[#0F0C15] text-[#FCFBFB]'
+                    : 'bg-transparent text-[#0F0C15]'
+                }`}
+              >
+                Business
+              </button>
+            </div>
+
             <button
-              id="header-mobile-tenant-tab"
-              type="button"
-              onClick={() => onToggleView('tenant')}
-              className={`flex-1 py-1.5 text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium rounded-full text-center transition-colors cursor-pointer min-w-0 ${
-                activeView === 'tenant'
-                  ? 'bg-[#0E2203] text-[#EAF3DE]'
-                  : 'bg-transparent text-[#0E2203]'
-              }`}
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-              }}
+              onClick={() => handleLinkClick('#how-it-works')}
+              className="display text-[9vw] max-text-5xl text-[#0F0C15] hover:opacity-80 transition-opacity uppercase tracking-tight cursor-pointer"
             >
-              Tenant
+              How it works
             </button>
             <button
-              id="header-mobile-business-tab"
-              type="button"
-              onClick={() => onToggleView('business')}
-              className={`flex-1 py-1.5 text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium rounded-full text-center transition-colors cursor-pointer min-w-0 ${
-                activeView === 'business'
-                  ? 'bg-[#0E2203] text-[#EAF3DE]'
-                  : 'bg-transparent text-[#0E2203]'
-              }`}
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-              }}
+              onClick={() => handleLinkClick('#security')}
+              className="display text-[9vw] max-text-5xl text-[#0F0C15] hover:opacity-80 transition-opacity uppercase tracking-tight cursor-pointer"
             >
-              Business
+              Security
             </button>
+            <button
+              onClick={() => handleLinkClick('#faq')}
+              className="display text-[9vw] max-text-5xl text-[#0F0C15] hover:opacity-80 transition-opacity uppercase tracking-tight cursor-pointer"
+            >
+              FAQ
+            </button>
+
+            <div className="flex flex-col gap-4 w-full max-w-xs mt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenSignup?.(activeView);
+                }}
+                className="w-full py-4 rounded-full bg-[#6E2CFF] text-white text-[1rem] font-medium active:scale-95 transition-transform shadow-lg cursor-pointer"
+              >
+                Get started
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenLogin?.();
+                }}
+                className="w-full py-3 rounded-full bg-white/70 text-[#0F0C15] text-[0.9rem] font-medium cursor-pointer hover:bg-white transition-colors"
+              >
+                Log in to your account
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 };
