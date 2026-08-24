@@ -1,0 +1,6 @@
+{
+  "name": "Kumo",
+  "description": "Tenant-initiated rent reporting platform for South African renters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
