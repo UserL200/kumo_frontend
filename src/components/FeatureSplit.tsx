@@ -15,20 +15,20 @@ export const FeatureSplit: React.FC<FeatureSplitProps> = ({
 
   const content = isTenant
     ? {
-        eyebrow: 'how it works',
-        headline: 'your bank already knows you pay rent. now your record can show it.',
+        eyebrow: 'How it works',
+        headline: 'Your bank already knows you pay rent. Now your record can show it.',
         paragraph:
-          'securely link your account once. we detect your recurring rent payment automatically and report it monthly, so your history builds itself in the background.',
-        button: 'see how it works',
-        placeholder: 'screenshot: bank link flow',
+          'Securely link your account once. We detect your recurring rent payment automatically and report it monthly, so your history builds itself in the background.',
+        button: 'See how it works',
+        placeholder: 'Screenshot: bank link flow',
       }
     : {
-        eyebrow: 'no work for you',
-        headline: "you don't do anything. that's the point.",
+        eyebrow: 'No work for you',
+        headline: "You don't do anything. That's the point.",
         paragraph:
-          "tenants opt in and connect their own bank account. you're not asked to confirm payments, share records, or take on any reporting responsibility. your property just becomes one where tenants have a reason to pay on time and build something from it.",
-        button: 'learn more',
-        placeholder: 'landlord / property exterior photo — replace before launch',
+          "Tenants opt in and connect their own bank account. You're not asked to confirm payments, share records, or take on any reporting responsibility. Your property just becomes one where tenants have a reason to pay on time and build something from it.",
+        button: 'Learn more',
+        placeholder: 'Verified property management portfolio',
       };
 
   return (

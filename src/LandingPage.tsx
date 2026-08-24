@@ -38,7 +38,7 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0F0C15] text-[#0F0C15] flex flex-col font-['Suisse_Intl',_-apple-system,_BlinkMacSystemFont,_'Segoe_UI',_Roboto,_sans-serif] overflow-x-clip w-full selection:bg-[#DAFF35] selection:text-[#0F0C15]">
+    <div className="min-h-screen bg-[#529651] text-[#000000] flex flex-col font-['Suisse_Intl',_-apple-system,_BlinkMacSystemFont,_'Segoe_UI',_Roboto,_sans-serif] overflow-x-clip w-full selection:bg-[#AFE7FC] selection:text-[#000000]">
       {/* 1. Header Navigation */}
       <Header
         activeView={view}
@@ -49,7 +49,7 @@ export const LandingPage: React.FC = () => {
       />
 
       {/* Main Content Container with Rounded Bottom for Reveal Shell */}
-      <main className="relative z-10 bg-white rounded-b-[32px] md:rounded-b-[48px] overflow-hidden shadow-2xl pb-6">
+      <main className="relative z-10 bg-[#FFFFFF] mx-2 md:mx-4 rounded-[28px] md:rounded-[40px] overflow-hidden shadow-2xl pb-6 border border-white/20">
         {/* 2. Hero Component */}
         <Hero
           view={view}

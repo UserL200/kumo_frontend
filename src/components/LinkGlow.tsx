@@ -1,67 +1,135 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import fintechLockClosed from '../assets/images/fintech_vault_lock_1787592021342.jpg';
+import fintechLockOpen from '../assets/images/fintech_lock_open_1787592035272.jpg';
 
 interface LinkGlowProps {
   onNavigate?: (path: string) => void;
 }
 
 export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
+  const [isLocked, setIsLocked] = useState(false);
+  const [shockwave, setShockwave] = useState(false);
+
+  // Auto-close lock on initial view with a clean mechanical timing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLocked(true);
+      setShockwave(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const toggleLock = () => {
+    if (isLocked) {
+      setIsLocked(false);
+      setTimeout(() => {
+        setIsLocked(true);
+        setShockwave(true);
+      }, 600);
+    } else {
+      setIsLocked(true);
+      setShockwave(true);
+    }
+  };
+
   return (
     <section id="security" className="wrap py-12 md:py-16">
-      <div className="relative rounded-[32px] md:rounded-[40px] bg-[#0F0C15] text-[#FCFBFB] overflow-hidden px-6 md:px-14 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-center shadow-2xl">
-        {/* Glowing Cyan and Lime Ambient Blobs */}
+      <div className="relative rounded-[32px] md:rounded-[40px] bg-[#000000] text-[#FFFFFF] overflow-hidden px-6 md:px-14 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-center shadow-2xl border border-white/10">
+        {/* Glowing Green and Sky Blue Ambient Blobs */}
         <div
-          className="absolute -top-28 -left-20 w-[26rem] h-[26rem] rounded-full bg-[#59FCF9] opacity-45 pointer-events-none"
+          className="absolute -top-28 -left-20 w-[26rem] h-[26rem] rounded-full bg-[#AFE7FC] opacity-25 pointer-events-none"
           style={{ filter: 'blur(70px)' }}
         />
         <div
-          className="absolute -bottom-24 -right-16 w-[20rem] h-[20rem] rounded-full bg-[#DAFF35] opacity-45 pointer-events-none"
+          className="absolute -bottom-24 -right-16 w-[20rem] h-[20rem] rounded-full bg-[#529651] opacity-35 pointer-events-none"
           style={{ filter: 'blur(70px)' }}
         />
 
         {/* Left: Copy */}
         <div className="relative z-10 flex flex-col items-start min-w-0">
-          <div className="text-[clamp(0.72rem,1.6vw,0.85rem)] font-bold text-[#DAFF35] uppercase tracking-wider mb-3">
-            bank-grade security
+          <div className="inline-flex items-center gap-2 text-[clamp(0.72rem,1.6vw,0.85rem)] font-bold text-[#AFE7FC] uppercase tracking-wider mb-3">
+            <span className="w-2 h-2 rounded-full bg-[#529651] animate-pulse" />
+            Bank-grade security
           </div>
-          <h2 className="display text-[clamp(1.8rem,4.5vw,3rem)] text-[#FCFBFB] mb-4 max-w-[14ch]">
-            your data, only ever used for your record
+          <h2 className="display text-[clamp(1.8rem,4.5vw,3rem)] text-[#FFFFFF] mb-4 max-w-[14ch] leading-[1.1] tracking-tight">
+            Your data, only ever used for your record
           </h2>
-          <p className="text-[#FCFBFB]/60 text-[clamp(0.9rem,1.4vw,1.1rem)] leading-relaxed max-w-[40ch] mb-6">
-            we never see your login details, and you can disconnect at any time. licensed verification partners handle every connection.
+          <p className="text-white/75 text-[clamp(0.95rem,1.4vw,1.1rem)] leading-relaxed max-w-[42ch] mb-6">
+            We never see your login details, and you can disconnect at any time. Licensed verification partners handle every connection.
           </p>
           <button
             type="button"
             onClick={() => onNavigate?.('#security')}
-            className="btn-link text-[#FCFBFB] text-[0.9rem] font-medium hover:opacity-90"
+            className="btn-link text-[#FFFFFF] text-[0.95rem] font-bold hover:text-[#AFE7FC] cursor-pointer flex items-center gap-1.5 transition-colors"
           >
-            read our security overview <span className="text-[#59FCF9] text-lg font-normal">→</span>
+            Read our security overview <span className="text-[#AFE7FC] text-lg">→</span>
           </button>
         </div>
 
-        {/* Right: Floating Bank/Bureau Tiles */}
-        <div className="relative z-10 flex flex-col gap-3 w-full max-w-xs mx-auto">
-          <div className="flex items-center justify-between bg-white/[0.08] border border-white/[0.15] rounded-[16px] px-5 py-4 backdrop-blur-md text-[#FCFBFB] shadow-lg animate-float-1">
-            <span className="font-semibold text-[0.95rem]">FNB •• 4821</span>
-            <span className="text-[0.75rem] font-medium px-2.5 py-1 rounded-full bg-[#DAFF35]/20 text-[#DAFF35]">
-              linked
-            </span>
-          </div>
+        {/* Right: Realistic 3D Cyber-Security Padlock (Clean without surrounding block) */}
+        <div className="relative z-10 flex flex-col items-center justify-center w-full select-none">
+          <div
+            onClick={toggleLock}
+            className="group relative flex flex-col items-center justify-center cursor-pointer transition-transform duration-300 hover:scale-[1.03]"
+            title="Click to test locking mechanism"
+          >
+            {/* Shockwave Radial Wave on Lock Engagement */}
+            <AnimatePresence>
+              {shockwave && (
+                <motion.div
+                  initial={{ scale: 0.85, opacity: 0.9 }}
+                  animate={{ scale: 1.45, opacity: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.7, ease: 'easeOut' }}
+                  onAnimationComplete={() => setShockwave(false)}
+                  className="absolute w-72 h-72 rounded-full bg-[#529651]/30 blur-2xl pointer-events-none -z-10"
+                />
+              )}
+            </AnimatePresence>
 
-          <div className="flex items-center justify-between bg-white/[0.08] border border-white/[0.15] rounded-[16px] px-5 py-4 backdrop-blur-md text-[#FCFBFB] shadow-lg animate-float-2">
-            <span className="font-semibold text-[0.95rem]">Capitec •• 0093</span>
-            <span className="text-[0.75rem] font-medium px-2.5 py-1 rounded-full bg-[#59FCF9]/20 text-[#59FCF9]">
-              linked
-            </span>
-          </div>
+            {/* Realistic 3D Lock Image Container with Seamless Blending */}
+            <div className="relative w-64 sm:w-72 md:w-80 h-64 sm:h-72 md:h-80 flex items-center justify-center overflow-visible">
+              {/* Subtle back illumination glow */}
+              <div
+                className={`absolute w-48 h-48 rounded-full blur-2xl transition-colors duration-500 ${
+                  isLocked ? 'bg-[#529651]/35' : 'bg-[#AFE7FC]/25'
+                }`}
+              />
 
-          <div className="flex items-center justify-between bg-white/[0.08] border border-white/[0.15] rounded-[16px] px-5 py-4 backdrop-blur-md text-[#FCFBFB] shadow-lg animate-float-3">
-            <span className="font-semibold text-[0.95rem]">TransUnion</span>
-            <span className="text-[0.75rem] font-medium px-2.5 py-1 rounded-full bg-white/20 text-[#FCFBFB]">
-              reporting
-            </span>
+              {/* Closed Lock Image */}
+              <motion.img
+                src={fintechLockClosed}
+                alt="Realistic 3D Cyber Security Padlock Locked"
+                referrerPolicy="no-referrer"
+                initial={false}
+                animate={{
+                  opacity: isLocked ? 1 : 0,
+                  scale: isLocked ? 1 : 0.96,
+                  filter: isLocked ? 'brightness(1.05)' : 'brightness(0.9)',
+                }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)] pointer-events-none"
+              />
+
+              {/* Open Lock Image */}
+              <motion.img
+                src={fintechLockOpen}
+                alt="Realistic 3D Cyber Security Padlock Open"
+                referrerPolicy="no-referrer"
+                initial={false}
+                animate={{
+                  opacity: isLocked ? 0 : 1,
+                  scale: isLocked ? 1.04 : 1,
+                }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)] pointer-events-none"
+              />
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 };
+

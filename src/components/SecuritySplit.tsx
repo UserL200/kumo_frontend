@@ -31,21 +31,21 @@ export const SecuritySplit: React.FC<SecuritySplitProps> = () => {
               id="security-eyebrow"
               className="text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium text-[#2F6E2E] mb-3 inline-block"
             >
-              security
+              Security
             </span>
 
             <h2
               id="security-headline"
               className="text-[clamp(1.4rem,4vw,1.9rem)] font-bold tracking-[-0.03em] leading-[0.92] text-[#0E2203] font-['Georgia',_'Times_New_Roman',_serif] mb-6 max-w-none sm:max-w-[14ch]"
             >
-              bank-grade protection, on your terms
+              Bank-grade protection, on your terms
             </h2>
 
             <p
               id="security-paragraph"
               className="text-[clamp(0.85rem,1.4vw,1rem)] text-[#0E2203]/[0.55] leading-[1.5] max-w-none sm:max-w-[48ch]"
             >
-              we never see your login details, and you can disconnect at any time. your data is only ever used to detect and report your own rent payments.
+              We never see your login details, and you can disconnect at any time. Your data is only ever used to detect and report your own rent payments.
             </p>
           </div>
         </div>

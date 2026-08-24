@@ -11,13 +11,13 @@ export const Hero: React.FC<HeroProps> = ({ view, onNavigate, onOpenSignup }) =>
   const [activeLine, setActiveLine] = useState(0);
 
   const tenantLines = [
-    'rent that finally counts',
-    'a record, without asking your landlord',
+    'Rent that finally counts',
+    'A record, without asking your landlord',
   ];
 
   const businessLines = [
-    'a more reliable tenant starts here',
-    'zero admin, zero liability, on your side',
+    'A more reliable tenant starts here',
+    'Zero admin, zero liability, on your side',
   ];
 
   const currentLines = view === 'tenant' ? tenantLines : businessLines;
@@ -49,9 +49,9 @@ export const Hero: React.FC<HeroProps> = ({ view, onNavigate, onOpenSignup }) =>
 
       {/* Overlapping Headline Panel */}
       <div className="relative z-10 max-w-[min(54ch,90vw)] mx-auto -mt-10 sm:-mt-14 md:-mt-16 px-3">
-        <div className="bg-white rounded-t-[32px] md:rounded-t-[40px] pt-8 px-6 pb-4 text-center flex flex-col items-center shadow-xl border-t border-x border-[#0F0C15]/[0.06]">
+        <div className="bg-[#FFFFFF] rounded-t-[32px] md:rounded-t-[40px] pt-8 px-6 pb-4 text-center flex flex-col items-center shadow-xl border-t border-x border-[#000000]/10">
           {/* Cycling Headline with CSS Grid overlap */}
-          <div className="display text-[clamp(1.8rem,5.5vw,3.6rem)] text-[#0F0C15] tracking-[-0.05em] leading-[0.92] uppercase min-h-[clamp(3.8rem,8.5vw,5.5rem)] grid place-items-center w-full">
+          <div className="display text-[clamp(1.8rem,5.5vw,3.6rem)] text-[#000000] tracking-[-0.05em] leading-[0.92] uppercase min-h-[clamp(3.8rem,8.5vw,5.5rem)] grid place-items-center w-full">
             {currentLines.map((line, idx) => {
               const isCurrent = activeLine === idx;
               return (
@@ -71,10 +71,10 @@ export const Hero: React.FC<HeroProps> = ({ view, onNavigate, onOpenSignup }) =>
           </div>
 
           {/* Subtitle / Paragraph */}
-          <p className="text-[#0F0C15]/55 text-[clamp(0.95rem,1.5vw,1.25rem)] font-light max-w-[42ch] mt-5 leading-relaxed">
+          <p className="text-[#000000]/70 text-[clamp(0.95rem,1.5vw,1.2rem)] font-normal max-w-[42ch] mt-5 leading-relaxed">
             {view === 'tenant'
-              ? 'connect your bank account, and every on-time rent payment builds a verified record with the credit bureaus. no paperwork, no landlord involved.'
-              : 'join the network of landlords whose properties give tenants a reason to report, without adding any admin, paperwork, or liability to your side.'}
+              ? 'Connect your bank account, and every on-time rent payment builds a verified record with the credit bureaus. No paperwork, no landlord involved.'
+              : 'Join the network of landlords whose properties give tenants a reason to report, without adding any admin, paperwork, or liability to your side.'}
           </p>
 
           {/* Action Buttons */}
@@ -83,18 +83,18 @@ export const Hero: React.FC<HeroProps> = ({ view, onNavigate, onOpenSignup }) =>
               id="hero-cta-button"
               type="button"
               onClick={() => onOpenSignup?.(view)}
-              className="px-7 py-3.5 rounded-full bg-[#6E2CFF] hover:bg-[#5A24D9] text-white text-[0.9rem] font-medium transition-all active:scale-[0.98] cursor-pointer shadow-md"
+              className="px-8 py-3.5 rounded-full bg-[#E06336] hover:bg-[#c95126] text-white text-[0.95rem] font-bold transition-all active:scale-[0.98] cursor-pointer shadow-lg hover:shadow-[#E06336]/30"
             >
-              {view === 'tenant' ? 'start building your record' : 'join the network'}
+              {view === 'tenant' ? 'Start building your record' : 'Join the network'}
             </button>
 
             {view === 'tenant' && (
               <button
                 type="button"
                 onClick={() => onNavigate?.('#how-it-works')}
-                className="btn-link text-[0.9rem] text-[#0F0C15] font-medium hover:text-[#6E2CFF] transition-colors py-2 px-3"
+                className="btn-link text-[0.9rem] text-[#000000] font-bold hover:text-[#E06336] transition-colors py-2 px-3"
               >
-                see how it works <span className="text-[#6E2CFF] text-lg font-normal">→</span>
+                See how it works <span className="text-[#E06336] text-lg font-bold">→</span>
               </button>
             )}
           </div>

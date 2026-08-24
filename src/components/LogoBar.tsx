@@ -17,27 +17,27 @@ interface BenefitCardData {
 
 const BENEFIT_CARDS: BenefitCardData[] = [
   {
-    title: 'Home loan approvals',
+    title: 'Home Loan Approvals',
     detail: 'Qualify for prime bond interest rates when buying your first home.',
     image: homeImg,
   },
   {
-    title: 'Zero deposit leases',
-    detail: 'Skip heavy 2-month rental deposits on verified tenant profiles.',
+    title: 'Zero Deposit Leases',
+    detail: 'Skip heavy two-month rental deposits on verified tenant profiles.',
     image: leaseImg,
   },
   {
-    title: 'Lower vehicle rates',
+    title: 'Lower Vehicle Rates',
     detail: 'Save thousands on car financing interest and monthly repayments.',
     image: carLotImg,
   },
   {
-    title: 'Higher credit limits',
+    title: 'Higher Credit Limits',
     detail: 'Unlock premium credit cards and unsecured personal borrowing with ease.',
     image: bankCardsImg,
   },
   {
-    title: 'Instant phone contracts',
+    title: 'Instant Phone Contracts',
     detail: 'Pass credit vetting instantly with all major mobile network providers.',
     image: phoneLineupImg,
   },
@@ -75,14 +75,14 @@ export const LogoBar: React.FC<LogoBarProps> = () => {
   const radius = Math.max(220, trackWidth * 0.48);
 
   return (
-    <section id="benefits-section" className="wrap py-12 md:py-20 text-center">
+    <section id="benefits-section" className="wrap py-12 md:py-20 text-center bg-[#FFFFFF]">
       {/* Section Eyebrow & Title */}
       <div className="max-w-xl mx-auto mb-8 md:mb-12">
-        <div className="text-[clamp(0.72rem,1.6vw,0.85rem)] text-[#6E2CFF] font-bold uppercase tracking-wider mb-2">
-          unlock what you deserve
+        <div className="text-[clamp(0.72rem,1.6vw,0.85rem)] text-[#E06336] font-bold uppercase tracking-wider mb-2">
+          Unlock What You Deserve
         </div>
-        <h3 className="display text-[clamp(1.6rem,4vw,2.6rem)] text-[#0F0C15] leading-tight">
-          what updating & improving your score gets you
+        <h3 className="display text-[clamp(1.6rem,4vw,2.6rem)] text-[#000000] leading-tight">
+          What updating & improving your score gets you
         </h3>
       </div>
 
@@ -196,7 +196,7 @@ export const LogoBar: React.FC<LogoBarProps> = () => {
                   setIsPaused(true);
                 }}
                 className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                  isCurrent ? 'bg-[#6E2CFF] w-8' : 'bg-[#0F0C15]/20 w-2 hover:bg-[#0F0C15]/40'
+                  isCurrent ? 'bg-[#E06336] w-8' : 'bg-[#000000]/20 w-2 hover:bg-[#000000]/40'
                 }`}
                 aria-label={`Go to ${card.title}`}
               />

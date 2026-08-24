@@ -7,28 +7,28 @@ interface ExpandCardData {
 }
 
 const CARDS: ExpandCardData[] = [
-  { label: 'attracts reliable tenants', bg: '#F8FFDA', textColor: '#0F0C15' },
-  { label: 'zero admin burden', bg: '#FDDCC9', textColor: '#0F0C15' },
-  { label: 'no data shared with you', bg: '#EAE7FC', textColor: '#0F0C15' },
-  { label: 'no liability added', bg: '#FCFBFB', textColor: '#0F0C15' },
-  { label: 'free to list', bg: '#F8FFDA', textColor: '#0F0C15' },
-  { label: 'tenant-led, always', bg: '#0F0C15', textColor: '#FCFBFB' },
+  { label: 'Attracts reliable tenants', bg: '#AFE7FC', textColor: '#000000' },
+  { label: 'Zero admin burden', bg: '#529651', textColor: '#FFFFFF' },
+  { label: 'No data shared with you', bg: '#FCE6DD', textColor: '#000000' },
+  { label: 'No liability added', bg: '#E06336', textColor: '#FFFFFF' },
+  { label: 'Free to list', bg: '#D8F0D7', textColor: '#000000' },
+  { label: 'Tenant-led, always', bg: '#000000', textColor: '#FFFFFF' },
 ];
 
 export const ExpandGrid: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="expand-grid-section" className="wrap py-12 md:py-16">
-      <h3 className="display text-[clamp(1.4rem,3.5vw,2.2rem)] text-[#0F0C15] mb-6">
-        why landlords join the network
+    <section id="expand-grid-section" className="wrap py-12 md:py-16 bg-[#FFFFFF]">
+      <h3 className="display text-[clamp(1.4rem,3.5vw,2.2rem)] text-[#000000] mb-6">
+        Why landlords join the network
       </h3>
 
       {/* Desktop Expanding Cards (Hidden on Mobile) */}
       <div
         id="desktop-expand-cards"
         onMouseLeave={() => setHoveredIndex(null)}
-        className="hidden md:flex gap-3 h-[clamp(280px,36vh,420px)] w-full rounded-[24px] overflow-hidden p-1 bg-[#F5F4F4]"
+        className="hidden md:flex gap-3 h-[clamp(280px,36vh,420px)] w-full rounded-[24px] overflow-hidden p-1.5 bg-[#000000]"
       >
         {CARDS.map((card, index) => {
           let flexValue = 1;

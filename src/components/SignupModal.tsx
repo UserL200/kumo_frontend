@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { KumoLogo } from './KumoLogo';
 import {
   initiateBankLink,
   signupTenant,
@@ -34,7 +35,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
       await signupTenant({ email, phone });
       const bankLinkRes = await initiateBankLink();
       setSuccessMessage(
-        `account created. redirecting to ${BANK_LINK_PROVIDER} verification portal (${bankLinkRes.redirectUrl})...`
+        `Account created. Redirecting to ${BANK_LINK_PROVIDER} verification portal (${bankLinkRes.redirectUrl})...`
       );
       setTimeout(() => {
         setIsLoading(false);
@@ -51,7 +52,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
     try {
       await signupLandlord({ name, email, propertyCount });
       setSuccessMessage(
-        'thank you for listing your properties. our team will be in touch shortly.'
+        'Thank you for listing your properties. Our team will be in touch shortly.'
       );
       setIsLoading(false);
     } catch (err) {
@@ -64,19 +65,19 @@ export const SignupModal: React.FC<SignupModalProps> = ({
     e.preventDefault();
     setIsLoading(true);
     await new Promise((res) => setTimeout(res, 600));
-    setSuccessMessage('magic login link sent to your email address.');
+    setSuccessMessage('Magic login link sent to your email address.');
     setIsLoading(false);
   };
 
   return (
     <div
       id="signup-modal-backdrop"
-      className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-[#0F0C15]/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-[#000000]/70 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
         id="signup-modal-container"
-        className="w-full max-w-md bg-white border border-[#0F0C15]/10 rounded-[32px] p-6 md:p-8 relative text-[#0F0C15] shadow-2xl"
+        className="w-full max-w-md bg-[#FFFFFF] border border-[#000000]/15 rounded-[32px] p-6 md:p-8 relative text-[#000000] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -84,31 +85,36 @@ export const SignupModal: React.FC<SignupModalProps> = ({
           id="modal-close-button"
           type="button"
           onClick={onClose}
-          className="absolute top-6 right-6 text-2xl leading-none text-[#0F0C15]/50 hover:text-[#0F0C15] cursor-pointer"
+          className="absolute top-6 right-6 text-2xl leading-none text-[#000000]/50 hover:text-[#000000] cursor-pointer"
         >
           ×
         </button>
 
+        {/* Logo Badge */}
+        <div className="w-10 h-10 rounded-full bg-[#AFE7FC] border border-[#000000]/10 flex items-center justify-center mb-4 text-[#000000]">
+          <KumoLogo className="w-6 h-6" />
+        </div>
+
         {/* Title */}
-        <h3 className="display text-[1.8rem] text-[#0F0C15] mb-2 leading-tight">
+        <h3 className="display text-[1.8rem] text-[#000000] mb-2 leading-tight">
           {mode === 'tenant'
-            ? 'start building your record'
+            ? 'Start building your record'
             : mode === 'business'
-            ? 'join the kumo landlord network'
-            : 'log in to your record'}
+            ? 'Join the Kumo landlord network'
+            : 'Log in to your record'}
         </h3>
 
-        <p className="text-[0.85rem] text-[#0F0C15]/55 leading-relaxed mb-6">
+        <p className="text-[0.85rem] text-[#000000]/70 leading-relaxed mb-6">
           {mode === 'tenant'
-            ? 'connect your south african bank account securely to verify recurring rent payments.'
+            ? 'Connect your South African bank account securely to verify recurring rent payments.'
             : mode === 'business'
-            ? 'give your tenants the opportunity to report without any admin on your side.'
-            : 'access your verified payment history and monthly reporting status.'}
+            ? 'Give your tenants the opportunity to report without any admin on your side.'
+            : 'Access your verified payment history and monthly reporting status.'}
         </p>
 
         {successMessage ? (
-          <div className="bg-[#F8FFDA] border border-[#0F0C15]/[0.08] rounded-[20px] p-5 text-center">
-            <p className="text-[0.85rem] font-medium text-[#0F0C15] leading-relaxed mb-4">
+          <div className="bg-[#AFE7FC]/30 border border-[#AFE7FC] rounded-[20px] p-5 text-center">
+            <p className="text-[0.85rem] font-bold text-[#000000] leading-relaxed mb-4">
               {successMessage}
             </p>
             <button
@@ -117,16 +123,16 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 setSuccessMessage(null);
                 onClose();
               }}
-              className="bg-[#0F0C15] text-white px-6 py-2.5 text-[0.85rem] font-medium rounded-full cursor-pointer hover:opacity-90"
+              className="bg-[#000000] text-[#FFFFFF] px-6 py-2.5 text-[0.85rem] font-bold rounded-full cursor-pointer hover:opacity-90"
             >
-              close
+              Close
             </button>
           </div>
         ) : mode === 'tenant' ? (
           <form onSubmit={handleTenantSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="block text-[0.72rem] font-semibold text-[#0F0C15]/70 mb-1.5 uppercase tracking-wide">
-                email address
+              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+                Email address
               </label>
               <input
                 type="email"
@@ -134,13 +140,13 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tenant@example.co.za"
-                className="w-full bg-[#F5F4F4] border border-[#0F0C15]/[0.08] rounded-[16px] px-4 py-3 text-[0.9rem] text-[#0F0C15] focus:outline-none focus:border-[#6E2CFF]"
+                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
               />
             </div>
 
             <div>
-              <label className="block text-[0.72rem] font-semibold text-[#0F0C15]/70 mb-1.5 uppercase tracking-wide">
-                mobile phone number (south africa)
+              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+                Mobile phone number (South Africa)
               </label>
               <input
                 type="tel"
@@ -148,41 +154,41 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="082 123 4567"
-                className="w-full bg-[#F5F4F4] border border-[#0F0C15]/[0.08] rounded-[16px] px-4 py-3 text-[0.9rem] text-[#0F0C15] focus:outline-none focus:border-[#6E2CFF]"
+                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
               />
             </div>
 
-            <div className="text-[0.72rem] text-[#0F0C15]/45 leading-normal">
-              by continuing, you will be redirected to our verified open-banking partner ({BANK_LINK_PROVIDER}) via {BANK_LINK_REDIRECT_URI}. kumo does not store banking passwords.
+            <div className="text-[0.72rem] text-[#000000]/60 leading-normal">
+              By continuing, you will be redirected to our verified open-banking partner ({BANK_LINK_PROVIDER}) via {BANK_LINK_REDIRECT_URI}. Kumo does not store banking passwords.
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#6E2CFF] hover:bg-[#5A24D9] text-white py-3.5 px-6 text-[0.9rem] font-medium rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
+              className="w-full bg-[#E06336] hover:bg-[#c95126] text-[#FFFFFF] py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
             >
-              {isLoading ? 'connecting to partner...' : 'continue to bank link'}
+              {isLoading ? 'Connecting to partner...' : 'Continue to bank link'}
             </button>
           </form>
         ) : mode === 'business' ? (
           <form onSubmit={handleBusinessSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="block text-[0.72rem] font-semibold text-[#0F0C15]/70 mb-1.5 uppercase tracking-wide">
-                contact name or company
+              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+                Contact name or company
               </label>
               <input
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="acme properties (pty) ltd"
-                className="w-full bg-[#F5F4F4] border border-[#0F0C15]/[0.08] rounded-[16px] px-4 py-3 text-[0.9rem] text-[#0F0C15] focus:outline-none focus:border-[#6E2CFF]"
+                placeholder="Acme Properties (Pty) Ltd"
+                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
               />
             </div>
 
             <div>
-              <label className="block text-[0.72rem] font-semibold text-[#0F0C15]/70 mb-1.5 uppercase tracking-wide">
-                business email
+              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+                Business email
               </label>
               <input
                 type="email"
@@ -190,36 +196,36 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="landlord@example.co.za"
-                className="w-full bg-[#F5F4F4] border border-[#0F0C15]/[0.08] rounded-[16px] px-4 py-3 text-[0.9rem] text-[#0F0C15] focus:outline-none focus:border-[#6E2CFF]"
+                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
               />
             </div>
 
             <div>
-              <label className="block text-[0.72rem] font-semibold text-[#0F0C15]/70 mb-1.5 uppercase tracking-wide">
-                number of rental units (optional)
+              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+                Number of rental units (optional)
               </label>
               <input
                 type="text"
                 value={propertyCount}
                 onChange={(e) => setPropertyCount(e.target.value)}
                 placeholder="e.g. 12 units"
-                className="w-full bg-[#F5F4F4] border border-[#0F0C15]/[0.08] rounded-[16px] px-4 py-3 text-[0.9rem] text-[#0F0C15] focus:outline-none focus:border-[#6E2CFF]"
+                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
               />
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#6E2CFF] hover:bg-[#5A24D9] text-white py-3.5 px-6 text-[0.9rem] font-medium rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
+              className="w-full bg-[#E06336] hover:bg-[#c95126] text-[#FFFFFF] py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
             >
-              {isLoading ? 'submitting...' : 'list properties for free'}
+              {isLoading ? 'Submitting...' : 'List properties for free'}
             </button>
           </form>
         ) : (
           <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="block text-[0.72rem] font-semibold text-[#0F0C15]/70 mb-1.5 uppercase tracking-wide">
-                email address
+              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+                Email address
               </label>
               <input
                 type="email"
@@ -227,16 +233,16 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.co.za"
-                className="w-full bg-[#F5F4F4] border border-[#0F0C15]/[0.08] rounded-[16px] px-4 py-3 text-[0.9rem] text-[#0F0C15] focus:outline-none focus:border-[#6E2CFF]"
+                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
               />
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#6E2CFF] hover:bg-[#5A24D9] text-white py-3.5 px-6 text-[0.9rem] font-medium rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
+              className="w-full bg-[#E06336] hover:bg-[#c95126] text-[#FFFFFF] py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
             >
-              {isLoading ? 'sending link...' : 'send magic sign-in link'}
+              {isLoading ? 'Sending link...' : 'Send magic sign-in link'}
             </button>
           </form>
         )}

@@ -7,29 +7,29 @@ interface FAQItem {
 
 const FAQ_ITEMS: FAQItem[] = [
   {
-    question: 'does my landlord need to be involved',
+    question: 'Does my landlord need to be involved?',
     answer:
-      "no. this is entirely between you and your bank connection. your landlord never needs to sign up, confirm anything, or even know you're using it.",
+      "No. This is entirely between you and your bank connection. Your landlord never needs to sign up, confirm anything, or even know you're using it.",
   },
   {
-    question: 'is this a loan or line of credit',
+    question: 'Is this a loan or line of credit?',
     answer:
-      "no. we don't extend credit or lend money. we only detect and report your existing rent payments to the credit bureaus.",
+      "No. We don't extend credit or lend money. We only detect and report your existing rent payments to the credit bureaus.",
   },
   {
-    question: 'is my banking information safe',
+    question: 'Is my banking information safe?',
     answer:
-      'yes. we use bank-grade, licensed verification partners and never store your banking login details.',
+      'Yes. We use bank-grade, licensed verification partners and never store your banking login details.',
   },
   {
-    question: 'which south african banks are supported',
+    question: 'Which South African banks are supported?',
     answer:
-      'we support all major south african banks including capitec, fnb, standard bank, nedbank, absa, tymebank, and discovery bank through licensed open banking protocols.',
+      'We support all major South African banks including Capitec, FNB, Standard Bank, Nedbank, Absa, TymeBank, and Discovery Bank through licensed open banking protocols.',
   },
   {
-    question: 'what happens if i move to a new property',
+    question: 'What happens if I move to a new property?',
     answer:
-      'your rent history moves with you. when you start paying rent to a new account, simply confirm the new recurring payment in your kumo dashboard.',
+      'Your rent history moves with you. When you start paying rent to a new account, simply confirm the new recurring payment in your Kumo dashboard.',
   },
 ];
 
@@ -41,12 +41,12 @@ export const FAQ: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="wrap py-12 md:py-16">
-      <h3 className="display text-[clamp(1.6rem,4vw,2.5rem)] text-[#0F0C15] mb-6">
-        frequently asked
+    <section id="faq" className="wrap py-12 md:py-16 bg-[#FFFFFF]">
+      <h3 className="display text-[clamp(1.6rem,4vw,2.5rem)] text-[#000000] mb-6">
+        Frequently asked questions
       </h3>
 
-      <div className="border-t border-[#0F0C15]">
+      <div className="border-t border-[#000000]/10">
         {FAQ_ITEMS.map((item, idx) => {
           const isOpen = openIndex === idx;
 
@@ -54,7 +54,7 @@ export const FAQ: React.FC = () => {
             <div
               key={`faq-${item.question}`}
               id={`faq-item-${idx}`}
-              className="border-b border-[#0F0C15]"
+              className="border-b border-[#000000]/10"
             >
               <button
                 type="button"
@@ -62,11 +62,11 @@ export const FAQ: React.FC = () => {
                 className="w-full py-5 flex items-center justify-between text-left cursor-pointer select-none group"
                 aria-expanded={isOpen}
               >
-                <span className="font-semibold text-[clamp(0.95rem,2vw,1.25rem)] text-[#0F0C15] pr-4">
+                <span className="font-bold text-[clamp(0.95rem,2vw,1.25rem)] text-[#000000] pr-4 group-hover:text-[#E06336] transition-colors">
                   {item.question}
                 </span>
                 <span
-                  className="text-2xl font-light text-[#0F0C15] shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  className="text-2xl font-light text-[#E06336] shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   style={{
                     transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
                   }}
@@ -82,7 +82,7 @@ export const FAQ: React.FC = () => {
                   opacity: isOpen ? 1 : 0,
                 }}
               >
-                <p className="text-[#0F0C15]/60 text-[clamp(0.85rem,1.5vw,1rem)] leading-relaxed pb-6 max-w-[65ch]">
+                <p className="text-[#000000]/75 text-[clamp(0.85rem,1.5vw,1rem)] leading-relaxed pb-6 max-w-[65ch]">
                   {item.answer}
                 </p>
               </div>

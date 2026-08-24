@@ -5,10 +5,10 @@ interface StepBandProps {
 }
 
 const STEPS = [
-  'connect your bank',
-  'we detect your rent',
-  'you confirm it',
-  "it's reported monthly",
+  'Connect your bank',
+  'We detect your rent',
+  'You confirm it',
+  "It's reported monthly",
 ];
 
 export const StepBand: React.FC<StepBandProps> = () => {
@@ -20,14 +20,14 @@ export const StepBand: React.FC<StepBandProps> = () => {
             id="step-band-eyebrow"
             className="text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium text-[#6FCFEB] mb-3 inline-block"
           >
-            the record, step by step
+            The record, step by step
           </span>
 
           <h2
             id="step-band-headline"
             className="text-[clamp(1.4rem,4vw,1.9rem)] font-bold tracking-[-0.03em] leading-[0.92] text-white font-['Georgia',_'Times_New_Roman',_serif] max-w-none sm:max-w-[16ch]"
           >
-            from bank link to verified history
+            From bank link to verified history
           </h2>
         </div>
 
