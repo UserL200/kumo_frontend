@@ -5,7 +5,11 @@ interface FAQItem {
   answer: string;
 }
 
-const FAQ_ITEMS: FAQItem[] = [
+interface FAQProps {
+  view: 'tenant' | 'business';
+}
+
+const TENANT_FAQ_ITEMS: FAQItem[] = [
   {
     question: 'Does my landlord need to be involved?',
     answer:
@@ -33,8 +37,37 @@ const FAQ_ITEMS: FAQItem[] = [
   },
 ];
 
-export const FAQ: React.FC = () => {
+const BUSINESS_FAQ_ITEMS: FAQItem[] = [
+  {
+    question: 'Do I need to do anything as a landlord?',
+    answer:
+      "No. There's zero admin on your side. Your tenants can use Kumo whether or not you list your properties, and nothing is required from you for them to do it.",
+  },
+  {
+    question: "Will I see my tenant's banking information or payment history?",
+    answer:
+      "No. Nothing about your tenant's bank data or payment history is shared with you. Verification happens entirely between the tenant and Kumo.",
+  },
+  {
+    question: "Am I liable if a tenant's payment is late or disputed?",
+    answer:
+      "No. Kumo creates no liability on your side. Any dispute over a payment is between the tenant and Kumo, not something that involves you.",
+  },
+  {
+    question: 'Why would this benefit me as a landlord?',
+    answer:
+      'Tenants using Kumo have a direct incentive to pay rent consistently and on time, since that history is what builds their record. It gives tenants a reason to stay reliable, without adding anything to your workload.',
+  },
+  {
+    question: 'Does listing my properties cost anything?',
+    answer:
+      "No, listing your properties is free. It's entirely optional and doesn't change anything about how your tenants use Kumo.",
+  },
+];
+
+export const FAQ: React.FC<FAQProps> = ({ view }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const items = view === 'tenant' ? TENANT_FAQ_ITEMS : BUSINESS_FAQ_ITEMS;
 
   const toggle = (idx: number) => {
     setOpenIndex((current) => (current === idx ? null : idx));
@@ -47,12 +80,12 @@ export const FAQ: React.FC = () => {
       </h3>
 
       <div className="border-t border-[#000000]/10">
-        {FAQ_ITEMS.map((item, idx) => {
+        {items.map((item, idx) => {
           const isOpen = openIndex === idx;
 
           return (
             <div
-              key={`faq-${item.question}`}
+              key={`faq-${view}-${item.question}`}
               id={`faq-item-${idx}`}
               className="border-b border-[#000000]/10"
             >
