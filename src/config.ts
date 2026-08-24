@@ -3,7 +3,7 @@
  * Centralized API & Provider configuration
  */
 export const API_BASE_URL = '/api';
-export const BANK_LINK_PROVIDER: 'stitch' | 'truid' = 'stitch';
+export const BANK_LINK_PROVIDER: 'stitch' | 'truid' = 'bank verification';
 export const BANK_LINK_REDIRECT_URI = '/bank-link/callback';
 
 /**

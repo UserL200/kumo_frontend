@@ -106,7 +106,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
 
         <p className="text-[0.85rem] text-[#000000]/70 leading-relaxed mb-6">
           {mode === 'tenant'
-            ? 'Connect your South African bank account securely to verify recurring rent payments.'
+            ? ''
             : mode === 'business'
             ? 'Give your tenants the opportunity to report without any admin on your side.'
             : 'Access your verified payment history and monthly reporting status.'}
