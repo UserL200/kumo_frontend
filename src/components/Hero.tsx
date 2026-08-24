@@ -12,7 +12,7 @@ export const Hero: React.FC<HeroProps> = ({ view, onNavigate, onOpenSignup }) =>
 
   const tenantLines = [
     'Rent that finally counts',
-    'A record, without asking your landlord',
+    'Build your record, without new credit',
   ];
 
   const businessLines = [

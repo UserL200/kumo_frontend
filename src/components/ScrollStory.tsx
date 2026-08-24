@@ -29,7 +29,7 @@ const STEPS: Step[] = [
     num: 'Step One',
     headline: 'Link your bank account once',
     description:
-      'Securely connect through our licensed verification partner. We never see or store your login details.',
+      'Securely connect through our licensed verification partner.',
     badge: 'Bank-Grade Open Banking',
   },
   {

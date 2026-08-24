@@ -45,7 +45,7 @@ export const SecuritySplit: React.FC<SecuritySplitProps> = () => {
               id="security-paragraph"
               className="text-[clamp(0.85rem,1.4vw,1rem)] text-[#0E2203]/[0.55] leading-[1.5] max-w-none sm:max-w-[48ch]"
             >
-              We never see your login details, and you can disconnect at any time. Your data is only ever used to detect and report your own rent payments.
+              You can disconnect at any time. Your data is only ever used to detect and report your own rent payments.
             </p>
           </div>
         </div>

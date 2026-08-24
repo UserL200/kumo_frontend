@@ -52,7 +52,7 @@ export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
             Your data, only ever used for your record
           </h2>
           <p className="text-white/75 text-[clamp(0.95rem,1.4vw,1.1rem)] leading-relaxed max-w-[42ch] mb-6">
-            We never see your login details, and you can disconnect at any time. Licensed verification partners handle every connection.
+            You can disconnect at any time. Licensed verification partners handle every connection.
           </p>
           <button
             type="button"
