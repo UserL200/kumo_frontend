@@ -94,7 +94,7 @@ export const LandingPage: React.FC = () => {
 
         {/* 7. FAQ Accordion */}
         <Reveal>
-          <FAQ />
+          <FAQ view={view} />
         </Reveal>
 
         {/* 8. Large Glowing CTA */}
