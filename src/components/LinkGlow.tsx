@@ -48,10 +48,6 @@ export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
 
         {/* Left: Copy */}
         <div className="relative z-10 flex flex-col items-start min-w-0">
-          <div className="inline-flex items-center gap-2 text-[clamp(0.72rem,1.6vw,0.85rem)] font-bold text-[#AFE7FC] uppercase tracking-wider mb-3">
-            <span className="w-2 h-2 rounded-full bg-[#529651] animate-pulse" />
-            Bank-grade security
-          </div>
           <h2 className="display text-[clamp(1.8rem,4.5vw,3rem)] text-[#FFFFFF] mb-4 max-w-[14ch] leading-[1.1] tracking-tight">
             Your data, only ever used for your record
           </h2>
@@ -132,4 +128,3 @@ export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
     </section>
   );
 };
-

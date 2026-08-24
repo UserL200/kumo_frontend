@@ -37,7 +37,7 @@ const STEPS: Step[] = [
     headline: 'We detect your rent',
     description:
       'Our system spots your recurring rent payment automatically among your transactions with no manual entry required.',
-    badge: 'AI Transaction Pattern Match',
+    badge: 'Transaction Pattern Match',
   },
   {
     num: 'Step Three',
@@ -98,10 +98,6 @@ export const ScrollStory: React.FC = () => {
                         : 'opacity-0 translate-y-4 absolute inset-0 pointer-events-none'
                     }`}
                   >
-                    <div className="inline-flex items-center gap-1.5 text-[0.8rem] font-bold text-[#E06336] uppercase tracking-wider mb-2">
-                      <span className="w-2 h-2 rounded-full bg-[#529651] animate-pulse" />
-                      {step.num} · {step.badge}
-                    </div>
                     <h2 className="display text-[clamp(2rem,4vw,3.2rem)] font-black text-[#000000] mb-4 leading-[1.08] tracking-tight">
                       {step.headline}
                     </h2>
@@ -514,4 +510,3 @@ export const ScrollStory: React.FC = () => {
     </section>
   );
 };
-
