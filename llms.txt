@@ -1,0 +1,18 @@
+# Kumo
+
+> Kumo is a tenant-initiated rental payment verification service for South Africa. Tenants link their bank account (read-only) to verify recurring rent payments and build a payment history record. No landlord involvement is required, and no credit is extended.
+
+## Product
+
+- [Home](https://kumohost.co.za/): Overview of how Kumo verifies rent payments and what a verified payment record can help a tenant access.
+- [Sign up](https://kumohost.co.za/signup): Create a tenant account and start verifying rent payments. A separate business/landlord path is available from the same page.
+- [Log in](https://kumohost.co.za/login): Access an existing account.
+
+## Key facts
+
+- Kumo does not extend credit or lend money.
+- Bank account access is read-only, used only to detect and confirm recurring rent payments.
+- No landlord sign-up, confirmation, or involvement is required for a tenant to use Kumo.
+- Landlords who choose to participate have no admin burden, no data about their tenant's finances is shared with them, and they carry no liability for a tenant's payment record.
+- Credit bureau reporting is not yet live. Verified payment history is retained and will become reportable once a data furnisher partnership with a credit bureau is finalized.
+- Kumo is built by Mohoka Solutions (Pty) Ltd, based in Johannesburg, South Africa.

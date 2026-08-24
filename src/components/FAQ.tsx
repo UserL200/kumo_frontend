@@ -41,7 +41,7 @@ const BUSINESS_FAQ_ITEMS: FAQItem[] = [
   {
     question: 'Do I need to do anything as a landlord?',
     answer:
-      "No. There's zero admin on your side. Your tenants can use Kumo whether or not you list your properties, and nothing is required from you for them to do it.",
+      "No. There's zero admin on your side. Your tenants can use Kumo independently after list your properties, and nothing is required from you for them to do it.",
   },
   {
     question: "Will I see my tenant's banking information or payment history?",
@@ -49,7 +49,7 @@ const BUSINESS_FAQ_ITEMS: FAQItem[] = [
       "No. Nothing about your tenant's bank data or payment history is shared with you. Verification happens entirely between the tenant and Kumo.",
   },
   {
-    question: "Am I liable if a tenant's payment is late or disputed?",
+    question: "Am I liable if a tenant's payment is late or disputed on Kumo?",
     answer:
       "No. Kumo creates no liability on your side. Any dispute over a payment is between the tenant and Kumo, not something that involves you.",
   },
