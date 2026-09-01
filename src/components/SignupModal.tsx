@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { KumoLogo } from './KumoLogo';
 import {
-  initiateBankLink,
-  signupTenant,
+  signupWaitlist,
   signupLandlord,
-  BANK_LINK_PROVIDER,
-  BANK_LINK_REDIRECT_URI,
+  isValidEmail,
+  isValidSaPhone,
 } from '../config.ts';
 
 interface SignupModalProps {
@@ -13,6 +12,10 @@ interface SignupModalProps {
   onClose: () => void;
   mode: 'tenant' | 'business' | 'login';
 }
+
+// Minimum time (ms) a real human takes to open the modal and fill a
+// field. Bots that submit instantly on page load get silently rejected.
+const MIN_FORM_FILL_TIME_MS = 2000;
 
 export const SignupModal: React.FC<SignupModalProps> = ({
   isOpen,
@@ -23,51 +26,130 @@ export const SignupModal: React.FC<SignupModalProps> = ({
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const [propertyCount, setPropertyCount] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [touched, setTouched] = useState(false);
+
+  const openedAtRef = useRef<number | null>(null);
+
+  // Record when the modal actually opened, per open — used for the
+  // minimum-fill-time anti-spam check on submit.
+  useEffect(() => {
+    if (isOpen) {
+      openedAtRef.current = Date.now();
+    } else {
+      // Reset transient form state whenever the modal closes so a
+      // fresh open (possibly in a different mode) starts clean.
+      setEmail('');
+      setPhone('');
+      setName('');
+      setPropertyCount('');
+      setHoneypot('');
+      setIsLoading(false);
+      setSuccessMessage(null);
+      setTouched(false);
+      openedAtRef.current = null;
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
+  const emailValid = isValidEmail(email);
+  const phoneValid = isValidSaPhone(phone);
+
+  // Returns true if the submit looks like it came from a bot: the
+  // honeypot field was filled in (a real user never sees or fills
+  // it), or the form was submitted implausibly fast after opening.
+  const looksLikeSpam = () => {
+    if (honeypot.trim().length > 0) return true;
+    const openedAt = openedAtRef.current;
+    if (openedAt && Date.now() - openedAt < MIN_FORM_FILL_TIME_MS) return true;
+    return false;
+  };
+
   const handleTenantSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched(true);
+    if (!emailValid || !phoneValid) return;
+    if (looksLikeSpam()) {
+      // Silently succeed-looking to the bot without doing any work —
+      // don't tip off automated submitters that they were caught.
+      setSuccessMessage("You're on the waiting list. We'll email you as soon as bank verification opens up.");
+      return;
+    }
+
     setIsLoading(true);
     try {
-      await signupTenant({ email, phone });
-      const bankLinkRes = await initiateBankLink();
+      await signupWaitlist({ email, phone });
       setSuccessMessage(
-        `Account created. Redirecting to ${BANK_LINK_PROVIDER} verification portal (${bankLinkRes.redirectUrl})...`
+        "You're on the waiting list. Check your inbox for a confirmation email — we'll let you know as soon as bank verification is ready and you can link your account."
       );
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1500);
     } catch (err) {
       console.error(err);
+    } finally {
       setIsLoading(false);
     }
   };
 
   const handleBusinessSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched(true);
+    if (!emailValid) return;
+    if (looksLikeSpam()) {
+      setSuccessMessage('Thank you for listing your properties. Our team will be in touch shortly.');
+      return;
+    }
+
     setIsLoading(true);
     try {
       await signupLandlord({ name, email, propertyCount });
       setSuccessMessage(
         'Thank you for listing your properties. Our team will be in touch shortly.'
       );
-      setIsLoading(false);
     } catch (err) {
       console.error(err);
+    } finally {
       setIsLoading(false);
     }
   };
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched(true);
+    if (!emailValid) return;
+    if (looksLikeSpam()) {
+      setSuccessMessage('Magic login link sent to your email address.');
+      return;
+    }
+
     setIsLoading(true);
     await new Promise((res) => setTimeout(res, 600));
     setSuccessMessage('Magic login link sent to your email address.');
     setIsLoading(false);
   };
+
+  // Shared honeypot field, rendered inside every form. Hidden from
+  // sighted and screen-reader users via CSS + tabIndex + aria-hidden,
+  // but still present in the DOM for bots that blindly fill every
+  // input they find.
+  const Honeypot = () => (
+    <div
+      aria-hidden="true"
+      className="absolute -left-[9999px] w-px h-px overflow-hidden"
+    >
+      <label htmlFor="kumo-hp-field">Leave this field empty</label>
+      <input
+        id="kumo-hp-field"
+        type="text"
+        name="company_website"
+        autoComplete="off"
+        tabIndex={-1}
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+      />
+    </div>
+  );
 
   return (
     <div
@@ -98,7 +180,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
         {/* Title */}
         <h3 className="display text-[1.8rem] text-[#000000] mb-2 leading-tight">
           {mode === 'tenant'
-            ? 'Start building your record'
+            ? 'Join the waiting list'
             : mode === 'business'
             ? 'Join the Kumo landlord network'
             : 'Log in to your record'}
@@ -106,7 +188,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
 
         <p className="text-[0.85rem] text-[#000000]/70 leading-relaxed mb-6">
           {mode === 'tenant'
-            ? ''
+            ? "We're finalising our bank-verification partnerships. Pop your details in and we'll email you the moment you can link your account and start building your record."
             : mode === 'business'
             ? 'Give your tenants the opportunity to report without any admin on your side.'
             : 'Access your verified payment history and monthly reporting status.'}
@@ -129,7 +211,9 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             </button>
           </div>
         ) : mode === 'tenant' ? (
-          <form onSubmit={handleTenantSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleTenantSubmit} className="flex flex-col gap-4" noValidate>
+            <Honeypot />
+
             <div>
               <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
                 Email address
@@ -140,8 +224,15 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tenant@example.co.za"
-                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
+                className={`w-full bg-[#FFFFFF] border rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:ring-1 ${
+                  touched && !emailValid
+                    ? 'border-red-400 focus:border-red-400 focus:ring-red-400'
+                    : 'border-[#000000]/20 focus:border-[#E06336] focus:ring-[#E06336]'
+                }`}
               />
+              {touched && !emailValid && (
+                <p className="text-[0.72rem] text-red-500 mt-1">Enter a valid email address.</p>
+              )}
             </div>
 
             <div>
@@ -154,12 +245,21 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="082 123 4567"
-                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
+                className={`w-full bg-[#FFFFFF] border rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:ring-1 ${
+                  touched && !phoneValid
+                    ? 'border-red-400 focus:border-red-400 focus:ring-red-400'
+                    : 'border-[#000000]/20 focus:border-[#E06336] focus:ring-[#E06336]'
+                }`}
               />
+              {touched && !phoneValid && (
+                <p className="text-[0.72rem] text-red-500 mt-1">
+                  Enter a valid SA mobile number, e.g. 082 123 4567 or +27 82 123 4567.
+                </p>
+              )}
             </div>
 
             <div className="text-[0.72rem] text-[#000000]/60 leading-normal">
-              By continuing, you will be redirected to our verified open-banking partner via {BANK_LINK_REDIRECT_URI}. Kumo does not store banking passwords.
+              We'll only use these details to email and, if needed, SMS you about your place on the waiting list.
             </div>
 
             <button
@@ -167,11 +267,13 @@ export const SignupModal: React.FC<SignupModalProps> = ({
               disabled={isLoading}
               className="w-full bg-[#E06336] hover:bg-[#c95126] text-[#FFFFFF] py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
             >
-              {isLoading ? 'Connecting to partner...' : 'Continue to bank link'}
+              {isLoading ? 'Joining waiting list...' : 'Join the waiting list'}
             </button>
           </form>
         ) : mode === 'business' ? (
-          <form onSubmit={handleBusinessSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleBusinessSubmit} className="flex flex-col gap-4" noValidate>
+            <Honeypot />
+
             <div>
               <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
                 Contact name or company
@@ -196,8 +298,15 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="landlord@example.co.za"
-                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
+                className={`w-full bg-[#FFFFFF] border rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:ring-1 ${
+                  touched && !emailValid
+                    ? 'border-red-400 focus:border-red-400 focus:ring-red-400'
+                    : 'border-[#000000]/20 focus:border-[#E06336] focus:ring-[#E06336]'
+                }`}
               />
+              {touched && !emailValid && (
+                <p className="text-[0.72rem] text-red-500 mt-1">Enter a valid email address.</p>
+              )}
             </div>
 
             <div>
@@ -222,7 +331,9 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             </button>
           </form>
         ) : (
-          <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4" noValidate>
+            <Honeypot />
+
             <div>
               <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
                 Email address
@@ -233,8 +344,15 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.co.za"
-                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
+                className={`w-full bg-[#FFFFFF] border rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:ring-1 ${
+                  touched && !emailValid
+                    ? 'border-red-400 focus:border-red-400 focus:ring-red-400'
+                    : 'border-[#000000]/20 focus:border-[#E06336] focus:ring-[#E06336]'
+                }`}
               />
+              {touched && !emailValid && (
+                <p className="text-[0.72rem] text-red-500 mt-1">Enter a valid email address.</p>
+              )}
             </div>
 
             <button

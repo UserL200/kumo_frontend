@@ -48,16 +48,16 @@ export const Hero: React.FC<HeroProps> = ({ view, onNavigate, onOpenSignup }) =>
       </div>
 
       {/* Overlapping Headline Panel */}
-      <div className="relative z-10 max-w-[min(54ch,90vw)] mx-auto -mt-10 sm:-mt-14 md:-mt-16 px-3">
-        <div className="bg-[#FFFFFF] rounded-t-[32px] md:rounded-t-[40px] pt-8 px-6 pb-4 text-center flex flex-col items-center shadow-xl border-t border-x border-[#000000]/10">
+      <div className="relative z-10 max-w-[min(54ch,92vw)] md:max-w-[min(64ch,85vw)] lg:max-w-[min(78ch,72vw)] xl:max-w-[min(90ch,64vw)] mx-auto -mt-10 sm:-mt-14 md:-mt-16 px-3">
+        <div className="bg-[#FFFFFF] rounded-t-[32px] md:rounded-t-[40px] pt-8 px-6 md:px-12 pb-4 text-center flex flex-col items-center shadow-xl border-t border-x border-[#000000]/10">
           {/* Cycling Headline with CSS Grid overlap */}
-          <div className="display text-[clamp(1.8rem,5.5vw,3.6rem)] text-[#000000] tracking-[-0.05em] leading-[0.92] uppercase min-h-[clamp(3.8rem,8.5vw,5.5rem)] grid place-items-center w-full">
+          <div className="display text-[clamp(1.8rem,6.5vw,5.2rem)] text-[#000000] tracking-[-0.05em] leading-[0.92] uppercase min-h-[clamp(3.8rem,10vw,7rem)] grid place-items-center w-full">
             {currentLines.map((line, idx) => {
               const isCurrent = activeLine === idx;
               return (
                 <span
                   key={`${view}-${line}`}
-                  className="col-start-1 row-start-1 transition-all duration-500 ease-[cubic-bezier(1,0.02,0,0.85)] max-w-[20ch] text-center"
+                  className="col-start-1 row-start-1 transition-all duration-500 ease-[cubic-bezier(1,0.02,0,0.85)] max-w-[32ch] text-center"
                   style={{
                     opacity: isCurrent ? 1 : 0,
                     transform: isCurrent ? 'translateY(0)' : 'translateY(12px)',
@@ -71,7 +71,7 @@ export const Hero: React.FC<HeroProps> = ({ view, onNavigate, onOpenSignup }) =>
           </div>
 
           {/* Subtitle / Paragraph */}
-          <p className="text-[#000000]/70 text-[clamp(0.95rem,1.5vw,1.2rem)] font-normal max-w-[42ch] mt-5 leading-relaxed">
+          <p className="text-[#000000]/70 text-[clamp(0.95rem,1.5vw,1.25rem)] font-normal max-w-[42ch] md:max-w-[54ch] mt-5 leading-relaxed">
             {view === 'tenant'
               ? 'Connect your bank account, and every on-time rent payment builds a verified record with the credit bureaus. No paperwork, no landlord involved.'
               : 'Join the network of landlords whose properties give tenants a reason to report, without adding any admin, paperwork, or liability to your side.'}

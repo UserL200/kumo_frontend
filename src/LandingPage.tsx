@@ -49,7 +49,7 @@ export const LandingPage: React.FC = () => {
       />
 
       {/* Main Content Container with Rounded Bottom for Reveal Shell */}
-      <main className="relative z-10 bg-[#FFFFFF] mx-2 md:mx-4 rounded-[28px] md:rounded-[40px] overflow-hidden shadow-2xl pb-6 border border-white/20">
+      <main className="relative z-10 bg-[#FFFFFF] mx-2 md:mx-4 rounded-[28px] md:rounded-[40px] overflow-x-hidden shadow-2xl pb-6 border border-white/20">
         {/* 2. Hero Component */}
         <Hero
           view={view}
@@ -66,7 +66,9 @@ export const LandingPage: React.FC = () => {
             </Reveal>
 
             {/* 4. Sticky Scroll Story with Phone Mockup */}
-            <ScrollStory />
+            <div id="how-it-works">
+              <ScrollStory />
+            </div>
 
             {/* 5. Flip-Tile Directory Grid */}
             <Reveal>
@@ -104,7 +106,7 @@ export const LandingPage: React.FC = () => {
       </main>
 
       {/* 9. Fixed Bottom Reveal Footer */}
-      <Footer onNavigate={handleNavigate} />
+      <Footer onNavigate={handleNavigate} onOpenSignup={openSignup} />
 
       {/* 10. Signup / Login Interactive Modal */}
       <SignupModal

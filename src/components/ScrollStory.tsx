@@ -29,7 +29,7 @@ const STEPS: Step[] = [
     num: 'Step One',
     headline: 'Link your bank account once',
     description:
-      'Securely connect through our licensed verification partner.',
+      'Securely connect through our licensed verification partner. We never see or store your login details.',
     badge: 'Bank-Grade Open Banking',
   },
   {
@@ -78,7 +78,7 @@ export const ScrollStory: React.FC = () => {
   }, []);
 
   return (
-    <section id="how-it-works" ref={outerRef} className="relative min-h-auto md:min-h-[260vh] bg-[#FFFFFF] py-12 md:py-0">
+    <section id="how-it-works" ref={outerRef} className="relative min-h-[260vh] bg-[#FFFFFF]">
       <div className="sticky top-[4.5rem] min-h-[calc(100vh-4.5rem)] flex items-center py-8 md:py-12 overflow-hidden">
         <div className="wrap w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center">
           
@@ -130,18 +130,11 @@ export const ScrollStory: React.FC = () => {
 
           {/* Right: Ultra-Realistic Phone Shell Mockup */}
           <div className="flex items-center justify-center relative select-none">
-            {/* Ambient Backlight Glow corresponding to active step */}
+            {/* Fixed Dark Navy Ambient Backlight Glow */}
             <div
-              className="absolute w-[280px] sm:w-[320px] h-[480px] rounded-full blur-3xl -z-10 transition-all duration-700 opacity-60 pointer-events-none"
+              className="absolute w-[280px] sm:w-[320px] h-[480px] rounded-full blur-3xl -z-10 opacity-60 pointer-events-none"
               style={{
-                backgroundColor:
-                  activeStep === 0
-                    ? '#529651'
-                    : activeStep === 1
-                    ? '#AFE7FC'
-                    : activeStep === 2
-                    ? '#E06336'
-                    : '#529651',
+                backgroundColor: '#0F2A4A',
               }}
             />
 
@@ -158,8 +151,8 @@ export const ScrollStory: React.FC = () => {
               {/* Right Hardware Button (Power / Siri) */}
               <div className="absolute -right-[3px] top-[138px] w-[3px] h-[64px] bg-[#2E2B3D] rounded-r-md border-l border-[#000000]" />
 
-              {/* Screen Bezel & Display Frame */}
-              <div className="relative w-full h-full rounded-[38px] overflow-hidden bg-[#FFFFFF] shadow-inner flex flex-col justify-between border border-black/10">
+              {/* Screen Bezel & Display Frame - fixed dark navy across all steps */}
+              <div className="relative w-full h-full rounded-[38px] overflow-hidden bg-[#0F2A4A] shadow-inner flex flex-col justify-between border border-black/10">
                 
                 {/* Specular Glass Sheen Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-white/[0.12] pointer-events-none z-30" />
@@ -167,7 +160,7 @@ export const ScrollStory: React.FC = () => {
                 {/* Top Status Bar & Dynamic Island */}
                 <div className="relative z-40 pt-2.5 px-6 pb-1 flex items-center justify-between text-xs font-semibold select-none">
                   {/* Clock */}
-                  <span className={`text-[0.72rem] tracking-tight font-bold transition-colors duration-300 ${activeStep === 3 ? 'text-white' : 'text-[#000000]'}`}>
+                  <span className="text-[0.72rem] tracking-tight font-bold text-white">
                     09:41
                   </span>
 
@@ -175,21 +168,21 @@ export const ScrollStory: React.FC = () => {
                   <div className="absolute left-1/2 -translate-x-1/2 top-2 w-[90px] h-[24px] bg-[#000000] rounded-full flex items-center justify-between px-2.5 shadow-md">
                     {/* Camera lens with optical reflection */}
                     <div className="w-2.5 h-2.5 rounded-full bg-[#0d0d14] ring-1 ring-white/10 flex items-center justify-center">
-                      <div className="w-1 h-1 rounded-full bg-[#529651]" />
+                      <div className="w-1 h-1 rounded-full bg-[#AFE7FC]" />
                     </div>
                     {/* Microphone / Status indicator dot */}
                     <div className="flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#529651] animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#AFE7FC] animate-pulse" />
                     </div>
                   </div>
 
                   {/* Status Icons: 5G, Wifi, Battery */}
-                  <div className={`flex items-center gap-1.5 transition-colors duration-300 ${activeStep === 3 ? 'text-white' : 'text-[#000000]'}`}>
+                  <div className="flex items-center gap-1.5 text-white">
                     <span className="text-[0.62rem] font-bold tracking-tighter">5G</span>
                     <Wifi className="w-3 h-3 stroke-[2.5]" />
                     {/* Realistic Battery Pill */}
-                    <div className={`w-5 h-2.5 rounded-[3px] border p-0.5 flex items-center ${activeStep === 3 ? 'border-white/60' : 'border-[#000000]/70'}`}>
-                      <div className="w-full h-full bg-[#529651] rounded-[1.5px]" />
+                    <div className="w-5 h-2.5 rounded-[3px] border border-white/60 p-0.5 flex items-center">
+                      <div className="w-full h-full bg-[#AFE7FC] rounded-[1.5px]" />
                     </div>
                   </div>
                 </div>
@@ -199,7 +192,7 @@ export const ScrollStory: React.FC = () => {
                   
                   {/* ================= STEP 1 SCREEN: BANK LINK AUTH ================= */}
                   <div
-                    className={`absolute inset-0 p-4 flex flex-col justify-between bg-[#F4F8F3] text-[#000000] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    className={`absolute inset-0 p-4 flex flex-col justify-between bg-[#0F2A4A] text-white transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                       activeStep === 0
                         ? 'opacity-100 scale-100 pointer-events-auto'
                         : 'opacity-0 scale-95 pointer-events-none'
@@ -207,86 +200,86 @@ export const ScrollStory: React.FC = () => {
                   >
                     <div>
                       {/* App Header */}
-                      <div className="flex items-center justify-between pb-2.5 border-b border-[#000000]/10 mb-3">
+                      <div className="flex items-center justify-between pb-2.5 border-b border-white/15 mb-3">
                         <div className="flex items-center gap-1.5">
-                          <div className="w-5 h-5 rounded-md bg-[#529651] flex items-center justify-center text-white text-[10px] font-black">
+                          <div className="w-5 h-5 rounded-md bg-[#AFE7FC] flex items-center justify-center text-[#0F2A4A] text-[10px] font-black">
                             K
                           </div>
-                          <span className="text-[0.78rem] font-bold tracking-tight">Kumo Dashboard</span>
+                          <span className="text-[0.78rem] font-bold tracking-tight text-white">Kumo Dashboard</span>
                         </div>
                       </div>
 
-                      <h3 className="text-[0.95rem] font-bold text-[#000000] mb-1">
+                      <h3 className="text-[0.95rem] font-bold text-white mb-1">
                         Connect Bank Account
                       </h3>
-                      <p className="text-[0.68rem] text-[#000000]/60 mb-3 leading-tight">
+                      <p className="text-[0.68rem] text-white/60 mb-3 leading-tight">
                         Select the account where you make your monthly rent payment.
                       </p>
 
                       {/* Bank Options List */}
                       <div className="space-y-2">
                         {/* Capitec (Active Selected) */}
-                        <div className="flex items-center justify-between p-2.5 bg-white rounded-xl border-2 border-[#529651] shadow-sm">
+                        <div className="flex items-center justify-between p-2.5 bg-white/[0.06] rounded-xl border-2 border-[#AFE7FC] shadow-sm">
                           <div className="flex items-center gap-2.5">
                             <div className="w-7 h-7 rounded-lg bg-[#004B87] text-white flex items-center justify-center text-[10px] font-black">
                               C
                             </div>
                             <div>
-                              <div className="text-[0.75rem] font-bold text-[#000000] leading-tight">
+                              <div className="text-[0.75rem] font-bold text-white leading-tight">
                                 Capitec Bank
                               </div>
-                              <div className="text-[0.62rem] text-[#000000]/50">
+                              <div className="text-[0.62rem] text-white/50">
                                 Primary Savings · *4821
                               </div>
                             </div>
                           </div>
-                          <span className="w-4 h-4 rounded-full bg-[#529651] text-white flex items-center justify-center">
+                          <span className="w-4 h-4 rounded-full bg-[#AFE7FC] text-[#0F2A4A] flex items-center justify-center">
                             <Check className="w-2.5 h-2.5 stroke-[3]" />
                           </span>
                         </div>
 
                         {/* FNB */}
-                        <div className="flex items-center justify-between p-2.5 bg-white/70 rounded-xl border border-[#000000]/10">
+                        <div className="flex items-center justify-between p-2.5 bg-white/[0.03] rounded-xl border border-white/10">
                           <div className="flex items-center gap-2.5">
                             <div className="w-7 h-7 rounded-lg bg-[#009E96] text-white flex items-center justify-center text-[10px] font-black">
                               FNB
                             </div>
                             <div>
-                              <div className="text-[0.75rem] font-semibold text-[#000000] leading-tight">
+                              <div className="text-[0.75rem] font-semibold text-white leading-tight">
                                 First National Bank
                               </div>
-                              <div className="text-[0.62rem] text-[#000000]/50">
+                              <div className="text-[0.62rem] text-white/50">
                                 Cheque Account
                               </div>
                             </div>
                           </div>
-                          <span className="w-3.5 h-3.5 rounded-full border border-[#000000]/20" />
+                          <span className="w-3.5 h-3.5 rounded-full border border-white/30" />
                         </div>
 
                         {/* Standard Bank */}
-                        <div className="flex items-center justify-between p-2.5 bg-white/70 rounded-xl border border-[#000000]/10">
+                        <div className="flex items-center justify-between p-2.5 bg-white/[0.03] rounded-xl border border-white/10">
                           <div className="flex items-center gap-2.5">
                             <div className="w-7 h-7 rounded-lg bg-[#0033A0] text-white flex items-center justify-center text-[10px] font-black">
                               SB
                             </div>
                             <div>
-                              <div className="text-[0.75rem] font-semibold text-[#000000] leading-tight">
+                              <div className="text-[0.75rem] font-semibold text-white leading-tight">
                                 Standard Bank
                               </div>
-                              <div className="text-[0.62rem] text-[#000000]/50">
+                              <div className="text-[0.62rem] text-white/50">
                                 Current Account
                               </div>
                             </div>
                           </div>
-                          <span className="w-3.5 h-3.5 rounded-full border border-[#000000]/20" />
+                          <span className="w-3.5 h-3.5 rounded-full border border-white/30" />
                         </div>
                       </div>
                     </div>
 
                     {/* Footer Security Pill & Button */}
                     <div className="space-y-2 pt-2">
-                      <div className="flex items-center gap-1.5 p-2 bg-[#529651]/10 rounded-lg border border-[#529651]/20 text-[0.63rem] text-[#000000]/80">
-                        <ShieldCheck className="w-3.5 h-3.5 text-[#529651] shrink-0" />
+                      <div className="flex items-center gap-1.5 p-2 bg-white/[0.06] rounded-lg border border-[#AFE7FC]/30 text-[0.63rem] text-white/80">
+                        <ShieldCheck className="w-3.5 h-3.5 text-[#AFE7FC] shrink-0" />
                         <span>Read-only access. We cannot move funds or view credentials.</span>
                       </div>
 
@@ -301,7 +294,7 @@ export const ScrollStory: React.FC = () => {
 
                   {/* ================= STEP 2 SCREEN: RENT DETECTED ================= */}
                   <div
-                    className={`absolute inset-0 p-4 flex flex-col justify-between bg-[#F4F8F3] text-[#000000] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    className={`absolute inset-0 p-4 flex flex-col justify-between bg-[#0F2A4A] text-white transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                       activeStep === 1
                         ? 'opacity-100 scale-100 pointer-events-auto'
                         : 'opacity-0 scale-95 pointer-events-none'
@@ -309,26 +302,26 @@ export const ScrollStory: React.FC = () => {
                   >
                     <div>
                       {/* App Header */}
-                      <div className="flex items-center justify-between pb-2.5 border-b border-[#000000]/10 mb-2">
-                        <span className="text-[0.78rem] font-bold tracking-tight">Transaction Radar</span>
-                        <span className="text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-[#AFE7FC] text-[#000000] border border-[#000000]/15">
+                      <div className="flex items-center justify-between pb-2.5 border-b border-white/15 mb-2">
+                        <span className="text-[0.78rem] font-bold tracking-tight text-white">Transaction Radar</span>
+                        <span className="text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-[#AFE7FC] text-[#0F2A4A] border border-white/15">
                           1 Match Found
                         </span>
                       </div>
 
-                      <div className="text-[0.68rem] text-[#000000]/60 mb-2.5 flex items-center justify-between">
+                      <div className="text-[0.68rem] text-white/60 mb-2.5 flex items-center justify-between">
                         <span>Recent Statement Scan</span>
-                        <span className="font-bold text-[#000000]">March 2026</span>
+                        <span className="font-bold text-white">March 2026</span>
                       </div>
 
                       {/* Transaction Feed */}
                       <div className="space-y-2">
                         {/* MATCHED RENT ITEM (Highlighted & Glowing) */}
-                        <div className="p-3 bg-[#000000] text-white rounded-xl border-2 border-[#AFE7FC] shadow-lg relative overflow-hidden">
+                        <div className="p-3 bg-white/[0.06] text-white rounded-xl border-2 border-[#AFE7FC] shadow-lg relative overflow-hidden">
                           <div className="absolute -top-6 -right-6 w-16 h-16 bg-[#AFE7FC]/20 rounded-full blur-md" />
                           
                           <div className="flex items-center justify-between mb-1.5">
-                            <span className="inline-flex items-center px-1.5 py-0.5 bg-[#AFE7FC] text-[#000000] text-[0.58rem] font-black rounded uppercase tracking-wider">
+                            <span className="inline-flex items-center px-1.5 py-0.5 bg-[#AFE7FC] text-[#0F2A4A] text-[0.58rem] font-black rounded uppercase tracking-wider">
                               Detected Rent
                             </span>
                             <span className="text-[0.62rem] text-[#AFE7FC] font-bold font-mono">99.8% Match</span>
@@ -351,15 +344,15 @@ export const ScrollStory: React.FC = () => {
                     </div>
 
                     {/* Detection Badge */}
-                    <div className="p-2.5 bg-white rounded-xl border border-[#000000]/10 flex items-center gap-2 text-[0.65rem] text-[#000000]">
-                      <BadgeCheck className="w-4 h-4 text-[#529651] shrink-0" />
+                    <div className="p-2.5 bg-white/[0.06] rounded-xl border border-white/10 flex items-center gap-2 text-[0.65rem] text-white">
+                      <BadgeCheck className="w-4 h-4 text-[#AFE7FC] shrink-0" />
                       <span>Isolated 8 consecutive monthly payments to the same landlord reference.</span>
                     </div>
                   </div>
 
                   {/* ================= STEP 3 SCREEN: USER CONFIRMATION ================= */}
                   <div
-                    className={`absolute inset-0 p-4 flex flex-col justify-between bg-[#FCECE6] text-[#000000] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    className={`absolute inset-0 p-4 flex flex-col justify-between bg-[#0F2A4A] text-white transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                       activeStep === 2
                         ? 'opacity-100 scale-100 pointer-events-auto'
                         : 'opacity-0 scale-95 pointer-events-none'
@@ -367,40 +360,40 @@ export const ScrollStory: React.FC = () => {
                   >
                     <div>
                       {/* App Header */}
-                      <div className="flex items-center justify-between pb-2 border-b border-[#000000]/10 mb-3">
-                        <span className="text-[0.78rem] font-bold tracking-tight">One-Tap Verification</span>
-                        <span className="text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-[#E06336]/15 text-[#E06336]">
+                      <div className="flex items-center justify-between pb-2 border-b border-white/15 mb-3">
+                        <span className="text-[0.78rem] font-bold tracking-tight text-white">One-Tap Verification</span>
+                        <span className="text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-[#E06336]/20 text-[#E06336]">
                           Action Required
                         </span>
                       </div>
 
-                      <h3 className="text-[0.95rem] font-bold text-[#000000] mb-1">
+                      <h3 className="text-[0.95rem] font-bold text-white mb-1">
                         Is this your rent?
                       </h3>
-                      <p className="text-[0.68rem] text-[#000000]/60 mb-3 leading-tight">
+                      <p className="text-[0.68rem] text-white/60 mb-3 leading-tight">
                         Confirm once. From next month, everything reports automatically.
                       </p>
 
                       {/* Confirmation Detail Card */}
-                      <div className="p-3 bg-white rounded-xl border border-[#E06336]/30 shadow-sm space-y-2.5">
-                        <div className="flex justify-between items-center pb-2 border-b border-gray-100">
-                          <span className="text-[0.65rem] text-[#000000]/60 font-medium">Monthly Rent</span>
-                          <span className="text-[1.1rem] font-black text-[#000000]">R 6,850.00</span>
+                      <div className="p-3 bg-white/[0.06] rounded-xl border border-[#AFE7FC]/30 shadow-sm space-y-2.5">
+                        <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                          <span className="text-[0.65rem] text-white/60 font-medium">Monthly Rent</span>
+                          <span className="text-[1.1rem] font-black text-white">R 6,850.00</span>
                         </div>
 
                         <div className="grid grid-cols-2 gap-2 text-[0.65rem]">
                           <div>
-                            <span className="text-[#000000]/50 block">Payment Recipient</span>
-                            <span className="font-semibold text-[#000000] truncate block">Soweto Prop Mgt</span>
+                            <span className="text-white/50 block">Payment Recipient</span>
+                            <span className="font-semibold text-white truncate block">Soweto Prop Mgt</span>
                           </div>
                           <div>
-                            <span className="text-[#000000]/50 block">Statement Ref</span>
-                            <span className="font-mono font-semibold text-[#000000]">UNIT-402-RENT</span>
+                            <span className="text-white/50 block">Statement Ref</span>
+                            <span className="font-mono font-semibold text-white">UNIT-402-RENT</span>
                           </div>
                         </div>
 
-                        <div className="pt-1 text-[0.62rem] text-[#000000]/70 flex items-center gap-1">
-                          <CheckCircle2 className="w-3 h-3 text-[#529651] shrink-0" />
+                        <div className="pt-1 text-[0.62rem] text-white/70 flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3 text-[#AFE7FC] shrink-0" />
                           <span>No landlord signature or approval required.</span>
                         </div>
                       </div>
@@ -414,7 +407,7 @@ export const ScrollStory: React.FC = () => {
                       >
                         <Check className="w-4 h-4 stroke-[3]" /> Yes, Confirm This Is Rent
                       </button>
-                      <p className="text-center text-[0.6rem] text-[#000000]/50">
+                      <p className="text-center text-[0.6rem] text-white/50">
                         You can edit or unlink this payment anytime from your dashboard.
                       </p>
                     </div>
@@ -422,7 +415,7 @@ export const ScrollStory: React.FC = () => {
 
                   {/* ================= STEP 4 SCREEN: BUREAU REPORTED DASHBOARD ================= */}
                   <div
-                    className={`absolute inset-0 p-4 flex flex-col justify-between bg-[#000000] text-[#FFFFFF] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    className={`absolute inset-0 p-4 flex flex-col justify-between bg-[#0F2A4A] text-white transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                       activeStep === 3
                         ? 'opacity-100 scale-100 pointer-events-auto'
                         : 'opacity-0 scale-95 pointer-events-none'
@@ -432,10 +425,9 @@ export const ScrollStory: React.FC = () => {
                       {/* App Header */}
                       <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
                         <div className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#529651] animate-pulse" />
-                          {/* Title removed */}
+                          <span className="w-2 h-2 rounded-full bg-[#AFE7FC] animate-pulse" />
                         </div>
-                        <span className="text-[0.6rem] font-bold px-2 py-0.5 rounded-full bg-[#529651]/20 text-[#AFE7FC] border border-[#529651]/40">
+                        <span className="text-[0.6rem] font-bold px-2 py-0.5 rounded-full bg-[#AFE7FC]/20 text-[#AFE7FC] border border-[#AFE7FC]/40">
                           Active
                         </span>
                       </div>
@@ -470,7 +462,7 @@ export const ScrollStory: React.FC = () => {
                           {['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'].map((m) => (
                             <div
                               key={m}
-                              className="bg-[#529651]/20 border border-[#529651]/40 rounded-lg py-1 px-0.5"
+                              className="bg-[#AFE7FC]/20 border border-[#AFE7FC]/40 rounded-lg py-1 px-0.5"
                             >
                               <div className="text-[0.58rem] text-[#AFE7FC] font-bold">{m}</div>
                               <Check className="w-2.5 h-2.5 text-[#AFE7FC] mx-auto stroke-[3]" />
@@ -481,12 +473,12 @@ export const ScrollStory: React.FC = () => {
                     </div>
 
                     {/* Stamp Badge */}
-                    <div className="p-2 bg-[#529651] text-white rounded-xl flex items-center justify-between text-[0.68rem] font-bold">
+                    <div className="p-2 bg-[#AFE7FC]/20 border border-[#AFE7FC]/40 text-white rounded-xl flex items-center justify-between text-[0.68rem] font-bold">
                       <div className="flex items-center gap-1.5">
-                        <BadgeCheck className="w-4 h-4 text-white" />
+                        <BadgeCheck className="w-4 h-4 text-[#AFE7FC]" />
                         <span>Kumo Verified Rent</span>
                       </div>
-                      <span className="font-mono text-[0.6rem]">ZA-402</span>
+                      <span className="font-mono text-[0.6rem] text-white/70">ZA-402</span>
                     </div>
                   </div>
 
@@ -494,11 +486,7 @@ export const ScrollStory: React.FC = () => {
 
                 {/* Bottom Home Indicator Bar */}
                 <div className="relative z-40 py-2 flex justify-center">
-                  <div
-                    className={`w-28 h-1 rounded-full transition-colors duration-300 ${
-                      activeStep === 3 ? 'bg-white/40' : 'bg-black/30'
-                    }`}
-                  />
+                  <div className="w-28 h-1 rounded-full bg-white/40" />
                 </div>
 
               </div>
