@@ -35,25 +35,29 @@ export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
 
   return (
     <section id="security" className="wrap py-12 md:py-16">
-      <div className="relative rounded-[32px] md:rounded-[40px] bg-[#000000] text-[#FFFFFF] overflow-hidden px-6 md:px-14 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-center shadow-2xl border border-white/10">
+      <div className="relative rounded-[32px] md:rounded-[40px] bg-(--ink) text-(--parchment) overflow-hidden px-6 md:px-14 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-center shadow-2xl border border-(--parchment)/10">
         <div
-          className="absolute -top-28 -left-20 w-[26rem] h-[26rem] rounded-full bg-[#AFE7FC] opacity-25 pointer-events-none"
+          className="absolute -top-28 -left-20 w-[26rem] h-[26rem] rounded-full bg-(--moss) opacity-25 pointer-events-none"
           style={{ filter: 'blur(70px)' }}
         />
         <div
-          className="absolute -bottom-24 -right-16 w-[20rem] h-[20rem] rounded-full bg-[#529651] opacity-35 pointer-events-none"
+          className="absolute -bottom-24 -right-16 w-[20rem] h-[20rem] rounded-full bg-(--olive) opacity-35 pointer-events-none"
           style={{ filter: 'blur(70px)' }}
         />
 
         <div className="relative z-10 flex flex-col items-start min-w-0">
-          <h2 className="display text-[clamp(1.8rem,4.5vw,3rem)] text-[#FFFFFF] mb-4 max-w-[14ch] leading-[1.1] tracking-tight">
+          <span className="text-[clamp(0.72rem,1.6vw,0.85rem)] font-bold text-(--moss) uppercase tracking-wider mb-3 inline-block">
+            Security
+          </span>
+
+          <h2 className="display text-[clamp(1.8rem,4.5vw,3rem)] text-(--parchment) mb-4 max-w-[14ch] leading-[1.1] tracking-tight">
             Your data, only ever used for your record
           </h2>
-          <p className="text-white/75 text-[clamp(0.95rem,1.4vw,1.1rem)] leading-relaxed max-w-[42ch] mb-6">
+          <p className="text-(--parchment)/75 text-[clamp(0.95rem,1.4vw,1.1rem)] leading-relaxed max-w-[42ch] mb-6">
             You can disconnect at any time. Licensed verification partners handle every connection.
           </p>
-          <a href={securityPolicyPdf} target="_blank" rel="noopener noreferrer" className="btn-link text-[#FFFFFF] text-[0.95rem] font-bold hover:text-[#AFE7FC] cursor-pointer flex items-center gap-1.5 transition-colors">
-          Read our security overview <span className="text-[#AFE7FC] text-lg">→</span>
+          <a href={securityPolicyPdf} target="_blank" rel="noopener noreferrer" className="btn-link text-(--parchment) text-[0.95rem] font-bold hover:text-(--moss) cursor-pointer flex items-center gap-1.5 transition-colors">
+          Read our security overview <span className="text-(--moss) text-lg">→</span>
           </a>
         </div>
 
@@ -71,7 +75,7 @@ export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.7, ease: 'easeOut' }}
                   onAnimationComplete={() => setShockwave(false)}
-                  className="absolute w-72 h-72 rounded-full bg-[#529651]/30 blur-2xl pointer-events-none -z-10"
+                  className="absolute w-72 h-72 rounded-full bg-(--olive)/30 blur-2xl pointer-events-none -z-10"
                 />
               )}
             </AnimatePresence>
@@ -79,7 +83,7 @@ export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
             <div className="relative w-64 sm:w-72 md:w-80 h-64 sm:h-72 md:h-80 flex items-center justify-center overflow-visible">
               <div
                 className={`absolute w-48 h-48 rounded-full blur-2xl transition-colors duration-500 ${
-                  isLocked ? 'bg-[#529651]/35' : 'bg-[#AFE7FC]/25'
+                  isLocked ? 'bg-(--olive)/35' : 'bg-(--moss)/25'
                 }`}
               />
               <motion.img

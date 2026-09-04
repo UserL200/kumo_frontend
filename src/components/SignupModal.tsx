@@ -17,6 +17,9 @@ interface SignupModalProps {
 // field. Bots that submit instantly on page load get silently rejected.
 const MIN_FORM_FILL_TIME_MS = 2000;
 
+const WAITLIST_SUCCESS_MESSAGE =
+  "You're on the waiting list. Check your inbox for a confirmation email — we'll let you know as soon as bank verification is ready and you can link your account.";
+
 export const SignupModal: React.FC<SignupModalProps> = ({
   isOpen,
   onClose,
@@ -29,6 +32,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
   const [honeypot, setHoneypot] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [touched, setTouched] = useState(false);
 
   const openedAtRef = useRef<number | null>(null);
@@ -48,6 +52,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
       setHoneypot('');
       setIsLoading(false);
       setSuccessMessage(null);
+      setErrorMessage(null);
       setTouched(false);
       openedAtRef.current = null;
     }
@@ -58,35 +63,37 @@ export const SignupModal: React.FC<SignupModalProps> = ({
   const emailValid = isValidEmail(email);
   const phoneValid = isValidSaPhone(phone);
 
-  // Returns true if the submit looks like it came from a bot: the
-  // honeypot field was filled in (a real user never sees or fills
-  // it), or the form was submitted implausibly fast after opening.
-  const looksLikeSpam = () => {
-    if (honeypot.trim().length > 0) return true;
+  // A submit implausibly fast after the modal opened is a common bot
+  // tell. Real honeypot detection happens server-side regardless (the
+  // backend checks the same "website" field) — this local check just
+  // saves a network round trip for the most obvious bots.
+  const submittedTooFast = () => {
     const openedAt = openedAtRef.current;
-    if (openedAt && Date.now() - openedAt < MIN_FORM_FILL_TIME_MS) return true;
-    return false;
+    return !!openedAt && Date.now() - openedAt < MIN_FORM_FILL_TIME_MS;
   };
 
   const handleTenantSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
+    setErrorMessage(null);
     if (!emailValid || !phoneValid) return;
-    if (looksLikeSpam()) {
-      // Silently succeed-looking to the bot without doing any work —
-      // don't tip off automated submitters that they were caught.
-      setSuccessMessage("You're on the waiting list. We'll email you as soon as bank verification opens up.");
+
+    if (submittedTooFast()) {
+      // Show the normal success copy without hitting the network —
+      // don't tip off a script that it was caught.
+      setSuccessMessage(WAITLIST_SUCCESS_MESSAGE);
       return;
     }
 
     setIsLoading(true);
     try {
-      await signupWaitlist({ email, phone });
-      setSuccessMessage(
-        "You're on the waiting list. Check your inbox for a confirmation email — we'll let you know as soon as bank verification is ready and you can link your account."
-      );
+      await signupWaitlist({ email, phone, honeypot });
+      setSuccessMessage(WAITLIST_SUCCESS_MESSAGE);
     } catch (err) {
       console.error(err);
+      setErrorMessage(
+        err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +103,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
     e.preventDefault();
     setTouched(true);
     if (!emailValid) return;
-    if (looksLikeSpam()) {
+    if (submittedTooFast() || honeypot.trim().length > 0) {
       setSuccessMessage('Thank you for listing your properties. Our team will be in touch shortly.');
       return;
     }
@@ -118,7 +125,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
     e.preventDefault();
     setTouched(true);
     if (!emailValid) return;
-    if (looksLikeSpam()) {
+    if (submittedTooFast() || honeypot.trim().length > 0) {
       setSuccessMessage('Magic login link sent to your email address.');
       return;
     }
@@ -132,7 +139,8 @@ export const SignupModal: React.FC<SignupModalProps> = ({
   // Shared honeypot field, rendered inside every form. Hidden from
   // sighted and screen-reader users via CSS + tabIndex + aria-hidden,
   // but still present in the DOM for bots that blindly fill every
-  // input they find.
+  // input they find. Named "website" to match the backend DTO field
+  // (WaitlistJoinRequest.website) that the tenant form sends this as.
   const Honeypot = () => (
     <div
       aria-hidden="true"
@@ -142,7 +150,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
       <input
         id="kumo-hp-field"
         type="text"
-        name="company_website"
+        name="website"
         autoComplete="off"
         tabIndex={-1}
         value={honeypot}
@@ -154,12 +162,12 @@ export const SignupModal: React.FC<SignupModalProps> = ({
   return (
     <div
       id="signup-modal-backdrop"
-      className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-[#000000]/70 backdrop-blur-sm"
+      className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-(--ink)/70 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
         id="signup-modal-container"
-        className="w-full max-w-md bg-[#FFFFFF] border border-[#000000]/15 rounded-[32px] p-6 md:p-8 relative text-[#000000] shadow-2xl"
+        className="w-full max-w-md bg-(--parchment) border border-(--ink)/15 rounded-[32px] p-6 md:p-8 relative text-(--ink) shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -167,18 +175,18 @@ export const SignupModal: React.FC<SignupModalProps> = ({
           id="modal-close-button"
           type="button"
           onClick={onClose}
-          className="absolute top-6 right-6 text-2xl leading-none text-[#000000]/50 hover:text-[#000000] cursor-pointer"
+          className="absolute top-6 right-6 text-2xl leading-none text-(--ink)/50 hover:text-(--ink) cursor-pointer"
         >
           ×
         </button>
 
         {/* Logo Badge */}
-        <div className="w-10 h-10 rounded-full bg-[#AFE7FC] border border-[#000000]/10 flex items-center justify-center mb-4 text-[#000000]">
+        <div className="w-10 h-10 rounded-full bg-(--moss) border border-(--ink)/10 flex items-center justify-center mb-4 text-(--ink)">
           <KumoLogo className="w-6 h-6" />
         </div>
 
         {/* Title */}
-        <h3 className="display text-[1.8rem] text-[#000000] mb-2 leading-tight">
+        <h3 className="display text-[1.8rem] text-(--ink) mb-2 leading-tight">
           {mode === 'tenant'
             ? 'Join the waiting list'
             : mode === 'business'
@@ -186,7 +194,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             : 'Log in to your record'}
         </h3>
 
-        <p className="text-[0.85rem] text-[#000000]/70 leading-relaxed mb-6">
+        <p className="text-[0.85rem] text-(--ink)/70 leading-relaxed mb-6">
           {mode === 'tenant'
             ? "We're finalising our bank-verification partnerships. Pop your details in and we'll email you the moment you can link your account and start building your record."
             : mode === 'business'
@@ -195,8 +203,8 @@ export const SignupModal: React.FC<SignupModalProps> = ({
         </p>
 
         {successMessage ? (
-          <div className="bg-[#AFE7FC]/30 border border-[#AFE7FC] rounded-[20px] p-5 text-center">
-            <p className="text-[0.85rem] font-bold text-[#000000] leading-relaxed mb-4">
+          <div className="bg-(--moss)/30 border border-(--moss) rounded-[20px] p-5 text-center">
+            <p className="text-[0.85rem] font-bold text-(--ink) leading-relaxed mb-4">
               {successMessage}
             </p>
             <button
@@ -205,7 +213,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 setSuccessMessage(null);
                 onClose();
               }}
-              className="bg-[#000000] text-[#FFFFFF] px-6 py-2.5 text-[0.85rem] font-bold rounded-full cursor-pointer hover:opacity-90"
+              className="bg-(--ink) text-(--parchment) px-6 py-2.5 text-[0.85rem] font-bold rounded-full cursor-pointer hover:opacity-90"
             >
               Close
             </button>
@@ -215,7 +223,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             <Honeypot />
 
             <div>
-              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+              <label className="block text-[0.72rem] font-bold text-(--ink)/80 mb-1.5 uppercase tracking-wide">
                 Email address
               </label>
               <input
@@ -224,10 +232,10 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tenant@example.co.za"
-                className={`w-full bg-[#FFFFFF] border rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:ring-1 ${
+                className={`w-full bg-(--parchment) border rounded-[16px] px-4 py-3 text-[0.9rem] text-(--ink) focus:outline-none focus:ring-1 ${
                   touched && !emailValid
                     ? 'border-red-400 focus:border-red-400 focus:ring-red-400'
-                    : 'border-[#000000]/20 focus:border-[#E06336] focus:ring-[#E06336]'
+                    : 'border-(--ink)/20 focus:border-(--ink) focus:ring-(--ink)'
                 }`}
               />
               {touched && !emailValid && (
@@ -236,7 +244,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+              <label className="block text-[0.72rem] font-bold text-(--ink)/80 mb-1.5 uppercase tracking-wide">
                 Mobile phone number (South Africa)
               </label>
               <input
@@ -245,10 +253,10 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="082 123 4567"
-                className={`w-full bg-[#FFFFFF] border rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:ring-1 ${
+                className={`w-full bg-(--parchment) border rounded-[16px] px-4 py-3 text-[0.9rem] text-(--ink) focus:outline-none focus:ring-1 ${
                   touched && !phoneValid
                     ? 'border-red-400 focus:border-red-400 focus:ring-red-400'
-                    : 'border-[#000000]/20 focus:border-[#E06336] focus:ring-[#E06336]'
+                    : 'border-(--ink)/20 focus:border-(--ink) focus:ring-(--ink)'
                 }`}
               />
               {touched && !phoneValid && (
@@ -258,14 +266,20 @@ export const SignupModal: React.FC<SignupModalProps> = ({
               )}
             </div>
 
-            <div className="text-[0.72rem] text-[#000000]/60 leading-normal">
+            <div className="text-[0.72rem] text-(--ink)/60 leading-normal">
               We'll only use these details to email and, if needed, SMS you about your place on the waiting list.
             </div>
+
+            {errorMessage && (
+              <div className="text-[0.8rem] text-red-600 bg-red-50 border border-red-200 rounded-[12px] px-4 py-2.5">
+                {errorMessage}
+              </div>
+            )}
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#E06336] hover:bg-[#c95126] text-[#FFFFFF] py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
+              className="w-full bg-(--ink) hover:bg-[#1f1f1f] text-(--parchment) py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
             >
               {isLoading ? 'Joining waiting list...' : 'Join the waiting list'}
             </button>
@@ -275,7 +289,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             <Honeypot />
 
             <div>
-              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+              <label className="block text-[0.72rem] font-bold text-(--ink)/80 mb-1.5 uppercase tracking-wide">
                 Contact name or company
               </label>
               <input
@@ -284,12 +298,12 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Acme Properties (Pty) Ltd"
-                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
+                className="w-full bg-(--parchment) border border-(--ink)/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-(--ink) focus:outline-none focus:border-(--ink) focus:ring-1 focus:ring-(--ink)"
               />
             </div>
 
             <div>
-              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+              <label className="block text-[0.72rem] font-bold text-(--ink)/80 mb-1.5 uppercase tracking-wide">
                 Business email
               </label>
               <input
@@ -298,10 +312,10 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="landlord@example.co.za"
-                className={`w-full bg-[#FFFFFF] border rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:ring-1 ${
+                className={`w-full bg-(--parchment) border rounded-[16px] px-4 py-3 text-[0.9rem] text-(--ink) focus:outline-none focus:ring-1 ${
                   touched && !emailValid
                     ? 'border-red-400 focus:border-red-400 focus:ring-red-400'
-                    : 'border-[#000000]/20 focus:border-[#E06336] focus:ring-[#E06336]'
+                    : 'border-(--ink)/20 focus:border-(--ink) focus:ring-(--ink)'
                 }`}
               />
               {touched && !emailValid && (
@@ -310,7 +324,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+              <label className="block text-[0.72rem] font-bold text-(--ink)/80 mb-1.5 uppercase tracking-wide">
                 Number of rental units (optional)
               </label>
               <input
@@ -318,14 +332,14 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={propertyCount}
                 onChange={(e) => setPropertyCount(e.target.value)}
                 placeholder="e.g. 12 units"
-                className="w-full bg-[#FFFFFF] border border-[#000000]/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:border-[#E06336] focus:ring-1 focus:ring-[#E06336]"
+                className="w-full bg-(--parchment) border border-(--ink)/20 rounded-[16px] px-4 py-3 text-[0.9rem] text-(--ink) focus:outline-none focus:border-(--ink) focus:ring-1 focus:ring-(--ink)"
               />
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#E06336] hover:bg-[#c95126] text-[#FFFFFF] py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
+              className="w-full bg-(--ink) hover:bg-[#1f1f1f] text-(--parchment) py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
             >
               {isLoading ? 'Submitting...' : 'List properties for free'}
             </button>
@@ -335,7 +349,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             <Honeypot />
 
             <div>
-              <label className="block text-[0.72rem] font-bold text-[#000000]/80 mb-1.5 uppercase tracking-wide">
+              <label className="block text-[0.72rem] font-bold text-(--ink)/80 mb-1.5 uppercase tracking-wide">
                 Email address
               </label>
               <input
@@ -344,10 +358,10 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.co.za"
-                className={`w-full bg-[#FFFFFF] border rounded-[16px] px-4 py-3 text-[0.9rem] text-[#000000] focus:outline-none focus:ring-1 ${
+                className={`w-full bg-(--parchment) border rounded-[16px] px-4 py-3 text-[0.9rem] text-(--ink) focus:outline-none focus:ring-1 ${
                   touched && !emailValid
                     ? 'border-red-400 focus:border-red-400 focus:ring-red-400'
-                    : 'border-[#000000]/20 focus:border-[#E06336] focus:ring-[#E06336]'
+                    : 'border-(--ink)/20 focus:border-(--ink) focus:ring-(--ink)'
                 }`}
               />
               {touched && !emailValid && (
@@ -358,7 +372,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#E06336] hover:bg-[#c95126] text-[#FFFFFF] py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
+              className="w-full bg-(--ink) hover:bg-[#1f1f1f] text-(--parchment) py-3.5 px-6 text-[0.95rem] font-bold rounded-full transition-all cursor-pointer disabled:opacity-50 mt-2 shadow-md"
             >
               {isLoading ? 'Sending link...' : 'Send magic sign-in link'}
             </button>

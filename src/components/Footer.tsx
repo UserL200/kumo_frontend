@@ -43,8 +43,8 @@ const CompanyFlip: React.FC<FlipBadgeProps> = ({
         <span
           className={`col-start-1 row-start-1 inline-block transition-colors ${
             isAccent
-              ? 'text-[#AFE7FC] font-bold hover:underline decoration-[#AFE7FC]/40 underline-offset-2'
-              : 'text-white/80 hover:text-white hover:underline underline-offset-2'
+              ? 'text-(--moss) font-bold hover:underline decoration-(--moss)/40 underline-offset-2'
+              : 'text-(--parchment)/80 hover:text-(--parchment) hover:underline underline-offset-2'
           }`}
           style={{ backfaceVisibility: 'hidden' }}
         >
@@ -53,7 +53,7 @@ const CompanyFlip: React.FC<FlipBadgeProps> = ({
 
         {/* Back Face */}
         <span
-          className={`col-start-1 row-start-1 inline-block font-mono tracking-wider text-[#AFE7FC] font-medium`}
+          className={`col-start-1 row-start-1 inline-block font-mono tracking-wider text-(--moss) font-medium`}
           style={{
             backfaceVisibility: 'hidden',
             transform: 'rotateX(180deg)',
@@ -122,18 +122,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
   return (
     <footer
       id="kumo-footer"
-      className="bg-[#000000] text-[#FFFFFF] pt-16 pb-8 overflow-hidden relative"
+      className="bg-(--ink) text-(--parchment) pt-16 pb-8 overflow-hidden relative"
     >
       <div className="wrap">
         {/* Top Grid */}
         <div className="grid grid-cols-1 min-[900px]:grid-cols-[5fr_7fr] gap-12 mb-12">
           {/* Brand Blurb */}
           <div className="flex flex-col items-start pr-4 max-w-md">
-            <div className="flex items-center gap-3 mb-4 text-[#FFFFFF]">
-              <KumoLogo className="w-8 h-8 shrink-0 text-[#AFE7FC]" />
+            <div className="flex items-center gap-3 mb-4 text-(--parchment)">
+              <KumoLogo className="w-8 h-8 shrink-0 text-(--moss)" />
               <span className="logo display text-[2rem] leading-none">kumo</span>
             </div>
-            <p className="text-white/60 text-[0.85rem] leading-relaxed mb-4">
+            <p className="text-(--parchment)/60 text-[0.85rem] leading-relaxed mb-4">
               Kumo is South Africa's tenant-initiated rent reporting platform. We enable renters across formal and informal housing to build verified payment records without landlord involvement.
             </p>
             <div className="text-[0.78rem] flex items-center flex-wrap gap-1.5 text-white/75 tracking-wide mt-2 mb-5">
@@ -155,7 +155,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
                   rel="noopener noreferrer"
                   aria-label={label}
                   title={label}
-                  className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/60 hover:text-[#AFE7FC] hover:border-[#AFE7FC]/40 transition-colors"
+                  className="w-9 h-9 rounded-full border border-(--parchment)/15 flex items-center justify-center text-(--parchment)/60 hover:text-(--moss) hover:border-(--moss)/40 transition-colors"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -166,7 +166,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
           {/* Navigation Links */}
           <div className="grid grid-cols-2 sm:grid-cols-[1fr_1fr_1fr_1.3fr] gap-8">
             <div>
-              <h4 className="text-[0.75rem] font-bold uppercase tracking-wider text-white/40 mb-4">
+              <h4 className="text-[0.75rem] font-bold uppercase tracking-wider text-(--parchment)/40 mb-4">
                 Company
               </h4>
               <ul className="flex flex-col gap-2.5 p-0 m-0 list-none text-[0.85rem]">
@@ -174,7 +174,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
                   <button
                     type="button"
                     onClick={() => onNavigate?.('#about')}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer text-left"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer text-left"
                   >
                     About
                   </button>
@@ -183,7 +183,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
                   <button
                     type="button"
                     onClick={() => onNavigate?.('#careers')}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer text-left"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer text-left"
                   >
                     Careers
                   </button>
@@ -192,7 +192,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
             </div>
 
             <div>
-              <h4 className="text-[0.75rem] font-bold uppercase tracking-wider text-white/40 mb-4">
+              <h4 className="text-[0.75rem] font-bold uppercase tracking-wider text-(--parchment)/40 mb-4">
                 Product
               </h4>
               <ul className="flex flex-col gap-2.5 p-0 m-0 list-none text-[0.85rem]">
@@ -200,7 +200,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
                   <button
                     type="button"
                     onClick={() => onOpenSignup?.('tenant')}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer text-left"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer text-left"
                   >
                     Record
                   </button>
@@ -209,7 +209,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
                   <button
                     type="button"
                     onClick={() => onNavigate?.('#how-it-works')}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer text-left"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer text-left"
                   >
                     How it works
                   </button>
@@ -218,7 +218,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
             </div>
 
             <div>
-              <h4 className="text-[0.75rem] font-bold uppercase tracking-wider text-white/40 mb-4">
+              <h4 className="text-[0.75rem] font-bold uppercase tracking-wider text-(--parchment)/40 mb-4">
                 Legal
               </h4>
               <ul className="flex flex-col gap-2.5 p-0 m-0 list-none text-[0.85rem]">
@@ -226,7 +226,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
                   <button
                     type="button"
                     onClick={() => onNavigate?.('#terms')}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer text-left"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer text-left"
                   >
                     Terms
                   </button>
@@ -235,7 +235,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
                   <button
                     type="button"
                     onClick={() => onNavigate?.('#privacy')}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer text-left"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer text-left"
                   >
                     Privacy
                   </button>
@@ -244,7 +244,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
                   <button
                     type="button"
                     onClick={() => onNavigate?.('#popia')}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer text-left"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer text-left"
                   >
                     POPIA Compliance
                   </button>
@@ -254,25 +254,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
 
             {/* Contact */}
             <div>
-              <h4 className="text-[0.75rem] font-bold uppercase tracking-wider text-white/40 mb-4">
+              <h4 className="text-[0.75rem] font-bold uppercase tracking-wider text-(--parchment)/40 mb-4">
                 Contact
               </h4>
               <ul className="flex flex-col gap-2.5 p-0 m-0 list-none text-[0.85rem]">
                 <li>
                   <a
                     href={`mailto:${CONTACT_EMAIL}`}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap"
                   >
-                    <IconMail className="w-4 h-4 shrink-0 text-white/40" />
+                    <IconMail className="w-4 h-4 shrink-0 text-(--parchment)/40" />
                     {CONTACT_EMAIL}
                   </a>
                 </li>
                 <li>
                   <a
                     href={`tel:${CONTACT_PHONE_TEL}`}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap"
+                    className="text-(--parchment)/60 hover:text-(--parchment) transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap"
                   >
-                    <IconPhone className="w-4 h-4 shrink-0 text-white/40" />
+                    <IconPhone className="w-4 h-4 shrink-0 text-(--parchment)/40" />
                     {CONTACT_PHONE_DISPLAY}
                   </a>
                 </li>
@@ -282,7 +282,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
         </div>
 
         {/* Bottom Row */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[0.75rem] text-white/40 pt-6 border-t border-white/10">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[0.75rem] text-(--parchment)/40 pt-6 border-t border-(--parchment)/10">
           <div className="flex items-center flex-wrap gap-1">
             <span>© 2026</span>
             <CompanyFlip
@@ -297,7 +297,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSignup }) => {
 
         {/* Giant Ghost Watermark Wordmark */}
         <div className="text-center overflow-hidden select-none pointer-events-none mt-6 -mb-4">
-          <span className="display text-[14vw] leading-none text-white/[0.05] tracking-tight block">
+          <span className="display text-[14vw] leading-none text-(--parchment)/5 tracking-tight block">
             KUMO
           </span>
         </div>

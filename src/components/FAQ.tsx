@@ -74,12 +74,12 @@ export const FAQ: React.FC<FAQProps> = ({ view }) => {
   };
 
   return (
-    <section id="faq" className="wrap py-12 md:py-16 bg-[#FFFFFF]">
-      <h3 className="display text-[clamp(1.6rem,4vw,2.5rem)] text-[#000000] mb-6">
+    <section id="faq" className="wrap py-12 md:py-16 bg-(--parchment)">
+      <h3 className="display text-[clamp(1.6rem,4vw,2.5rem)] text-(--ink) mb-6">
         Frequently asked questions
       </h3>
 
-      <div className="border-t border-[#000000]/10">
+      <div className="border-t border-(--ink)/10">
         {items.map((item, idx) => {
           const isOpen = openIndex === idx;
 
@@ -87,7 +87,7 @@ export const FAQ: React.FC<FAQProps> = ({ view }) => {
             <div
               key={`faq-${view}-${item.question}`}
               id={`faq-item-${idx}`}
-              className="border-b border-[#000000]/10"
+              className="border-b border-(--ink)/10"
             >
               <button
                 type="button"
@@ -95,11 +95,11 @@ export const FAQ: React.FC<FAQProps> = ({ view }) => {
                 className="w-full py-5 flex items-center justify-between text-left cursor-pointer select-none group"
                 aria-expanded={isOpen}
               >
-                <span className="font-bold text-[clamp(0.95rem,2vw,1.25rem)] text-[#000000] pr-4 group-hover:text-[#E06336] transition-colors">
+                <span className="font-bold text-[clamp(0.95rem,2vw,1.25rem)] text-(--ink) pr-4 group-hover:text-(--accent-fg-hover) transition-colors">
                   {item.question}
                 </span>
                 <span
-                  className="text-2xl font-light text-[#E06336] shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  className="text-2xl font-light text-(--accent-fg) shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   style={{
                     transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
                   }}
@@ -115,7 +115,7 @@ export const FAQ: React.FC<FAQProps> = ({ view }) => {
                   opacity: isOpen ? 1 : 0,
                 }}
               >
-                <p className="text-[#000000]/75 text-[clamp(0.85rem,1.5vw,1rem)] leading-relaxed pb-6 max-w-[65ch]">
+                <p className="text-(--ink)/75 text-[clamp(0.85rem,1.5vw,1rem)] leading-relaxed pb-6 max-w-[65ch]">
                   {item.answer}
                 </p>
               </div>

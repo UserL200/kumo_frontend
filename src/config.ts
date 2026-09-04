@@ -9,13 +9,11 @@ export const BANK_LINK_REDIRECT_URI = '/bank-link/callback';
 /**
  * Backend integration helper stubs
  *
- * NOTE: The Java backend does not have live endpoints wired up yet.
- * Every function below simulates a network round trip and logs the
- * request it would make. Replace the body of each stub with a real
- * fetch(`${API_BASE_URL}/...`) call once the corresponding Java
- * endpoint exists — the function signatures and return shapes are
- * designed to stay the same so the frontend components using them
- * won't need to change.
+ * NOTE: Most of the Java backend does not have live endpoints wired up
+ * yet — those functions below still simulate a network round trip and
+ * log the request they would make. signupWaitlist is the exception:
+ * it now calls the real /api/v1/waitlist/join endpoint, since that
+ * backend controller exists.
  */
 export interface BankLinkInitiateResponse {
   redirectUrl: string;
@@ -50,24 +48,50 @@ export async function signupTenant(payload: TenantSignupPayload): Promise<{ succ
  * Tenant waitlist signup — used in place of the full bank-link signup
  * flow while bank-verification partnerships are still being secured.
  *
- * Expected Java endpoint (not yet built): POST /api/waitlist/join
- * Expected server-side behaviour once wired up:
- *   1. Validate email + phone again server-side (never trust client validation alone).
- *   2. Store the entry (e.g. a `waitlist_entries` table: email, phone, joined_at, notified_at).
- *   3. Send a "you're on the waiting list" confirmation email immediately.
- *   4. Later, when bank-link partnerships are ready, a separate batch/admin
- *      process emails everyone on the list to invite them to complete signup.
+ * This is wired to the real Java endpoint: POST /api/v1/waitlist/join
+ * (see WaitlistController.java). The backend re-validates everything
+ * itself and always responds with the same generic success message,
+ * whether the email is brand new, already on the list, or caught by
+ * the server-side honeypot/rate-limit checks — so this function never
+ * needs to distinguish those cases, it just surfaces a real failure
+ * (network error, validation error, rate limited) if one occurs.
  */
 export interface WaitlistSignupPayload {
   email: string;
   phone: string;
+  // Honeypot value from the frontend form. Real users never fill
+  // this; if it's non-empty the backend treats the submission as
+  // spam. Passed through as-is — the frontend doesn't need to make
+  // its own judgment call about it, the backend already will.
+  honeypot?: string;
 }
 
-export async function signupWaitlist(payload: WaitlistSignupPayload): Promise<{ success: boolean; waitlistId: string }> {
-  console.log(`[Kumo Waitlist] Calling POST ${API_BASE_URL}/waitlist/join`, payload);
-  console.log('[Kumo Waitlist] Backend should send a "you\'re on the waiting list" confirmation email here.');
-  await new Promise((resolve) => setTimeout(resolve, 600));
-  return { success: true, waitlistId: `wl_${Date.now()}` };
+export async function signupWaitlist(payload: WaitlistSignupPayload): Promise<{ success: boolean }> {
+  const response = await fetch(`${API_BASE_URL}/v1/waitlist/join`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: payload.email,
+      phoneNumber: payload.phone,
+      website: payload.honeypot ?? '',
+    }),
+  });
+
+  if (!response.ok) {
+    let message = 'Something went wrong. Please try again.';
+    try {
+      const errorBody = await response.json();
+      if (errorBody?.error) {
+        message = errorBody.error;
+      }
+    } catch {
+      // Response body wasn't JSON (e.g. a proxy error page) — fall
+      // back to the generic message above.
+    }
+    throw new Error(message);
+  }
+
+  return { success: true };
 }
 
 export interface LandlordSignupPayload {

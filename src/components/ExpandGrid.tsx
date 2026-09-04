@@ -7,20 +7,20 @@ interface ExpandCardData {
 }
 
 const CARDS: ExpandCardData[] = [
-  { label: 'Attracts reliable tenants', bg: '#AFE7FC', textColor: '#000000' },
-  { label: 'Zero admin burden', bg: '#529651', textColor: '#FFFFFF' },
-  { label: 'No data shared with you', bg: '#FCE6DD', textColor: '#000000' },
-  { label: 'No liability added', bg: '#E06336', textColor: '#FFFFFF' },
-  { label: 'Free to list', bg: '#D8F0D7', textColor: '#000000' },
-  { label: 'Tenant-led, always', bg: '#000000', textColor: '#FFFFFF' },
+  { label: 'Attracts reliable tenants', bg: 'var(--parchment)', textColor: 'var(--ink)' },
+  { label: 'Zero admin burden', bg: 'var(--olive)', textColor: 'var(--parchment)' },
+  { label: 'No data shared with you', bg: 'var(--moss)', textColor: 'var(--ink)' },
+  { label: 'No liability added', bg: 'var(--ink)', textColor: 'var(--parchment)' },
+  { label: 'Free to list', bg: 'var(--olive)', textColor: 'var(--parchment)' },
+  { label: 'Tenant-led, always', bg: 'var(--ink)', textColor: 'var(--parchment)' },
 ];
 
 export const ExpandGrid: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="expand-grid-section" className="wrap py-12 md:py-16 bg-[#FFFFFF]">
-      <h3 className="display text-[clamp(1.4rem,3.5vw,2.2rem)] text-[#000000] mb-6">
+    <section id="expand-grid-section" className="wrap py-12 md:py-16 bg-(--parchment)">
+      <h3 className="display text-[clamp(1.4rem,3.5vw,2.2rem)] text-(--ink) mb-6">
         Why landlords join the network
       </h3>
 
@@ -28,7 +28,7 @@ export const ExpandGrid: React.FC = () => {
       <div
         id="desktop-expand-cards"
         onMouseLeave={() => setHoveredIndex(null)}
-        className="hidden md:flex gap-3 h-[clamp(280px,36vh,420px)] w-full rounded-[24px] overflow-hidden p-1.5 bg-[#000000]"
+        className="hidden md:flex gap-3 h-[clamp(280px,36vh,420px)] w-full rounded-[24px] overflow-hidden p-1.5 bg-(--ink)"
       >
         {CARDS.map((card, index) => {
           let flexValue = 1;
