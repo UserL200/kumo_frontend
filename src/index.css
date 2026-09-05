@@ -5,11 +5,11 @@
 
 
 :root {
-  /* Fonts — Space Grotesk (display) + Inter (body), open-source, no licensing needed */
+  /* Fonts - Space Grotesk (display) + Inter (body), open-source, no licensing needed */
   --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Locked palette — exactly 4 colors, do not add more */
+  /* Locked palette, exactly 4 colors, do not add more */
   --ink: #0d0d0d;
   --olive: #657747;
   --moss: #e3df96;
@@ -22,16 +22,16 @@
   --text-muted-inverse: rgba(234, 243, 222, 0.65);
 
   /* Surface roles */
-  --bg-page: var(--parchment);      /* default light surface — body, cards, main content sheet */
-  --bg-canvas: var(--ink);          /* dark dramatic frame — outer shell edges, footer, dark CTA sections */
+  --bg-page: var(--parchment);      /* default light surface = body, cards, main content sheet */
+  --bg-canvas: var(--ink);          /* dark dramatic frame - outer shell edges, footer, dark CTA sections */
   --bg-chrome: var(--olive);        /* header / nav band, primary brand chrome */
-  --bg-highlight: var(--moss);      /* sparing accent surface only — badges, "verified" chips. Always pairs with --ink text, never used as foreground/text color itself */
+  --bg-highlight: var(--moss);      /* sparing accent surface only - badges, "verified" chips. Always pairs with --ink text, never used as foreground/text color itself */
 
   /* Foreground accent for links/icons on light surfaces (moss fails contrast here, so olive carries this role instead) */
   --accent-fg: var(--olive);
   --accent-fg-hover: #4f5e38; /* olive, darkened ~15% for hover states */
 
-  /* Type scale — unchanged */
+  /* Type scale: unchanged */
   --text-xs: 0.64rem;
   --text-sm: 0.8rem;
   --text-base: 1rem;
@@ -43,7 +43,7 @@
   --text-4xl: 3.815rem;
   --text-5xl: 4.768rem;
 
-  /* Radii, easing, layout — unchanged */
+  /* Radii, easing, layout  unchanged */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -99,7 +99,6 @@ body {
   color: var(--text-muted);
 }
 
-/* Badge — a moss highlight surface with ink text, used sparingly */
 .badge {
   display: inline-block;
   font-size: var(--text-sm);
@@ -122,7 +121,6 @@ body {
   cursor: pointer;
 }
 
-/* Link arrow uses olive, not moss — moss doesn't have enough contrast as foreground text */
 .btn-link span {
   color: var(--accent-fg);
   transition: transform 200ms var(--ease-out);

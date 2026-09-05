@@ -109,14 +109,15 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <header
-        id="kumo-header"
-        className={`sticky top-0 z-50 bg-(--bg-chrome) border-b border-black/10 transition-transform duration-300 ${
-          isHidden ? '-translate-y-full' : 'translate-y-0'
-        }`}
-        style={{ transitionTimingFunction: 'var(--ease-out)' }}
-      >
-        <div className="wrap flex items-center justify-between h-18 gap-4">
+      <div className="sticky top-3 md:top-4 z-50 px-3 md:px-4 pointer-events-none">
+        <header
+          id="kumo-header"
+          className={`pointer-events-auto max-w-6xl mx-auto bg-(--bg-chrome) rounded-[20px] shadow-lg shadow-black/15 transition-transform duration-300 ${
+            isHidden ? '-translate-y-[calc(100%+2rem)]' : 'translate-y-0'
+          }`}
+          style={{ transitionTimingFunction: 'var(--ease-out)' }}
+        >
+          <div className="flex items-center justify-between h-16 gap-4 px-5 md:px-7">
           {/* Logo & View Switch */}
           <div className="flex items-center gap-7">
             <button
@@ -223,8 +224,9 @@ export const Header: React.FC<HeaderProps> = ({
           >
             Menu
           </button>
-        </div>
-      </header>
+          </div>
+        </header>
+      </div>
 
       {/* Fullscreen Mobile Menu Drawer */}
       <div

@@ -1,9 +1,10 @@
 import React from 'react';
+import { Reveal } from './Reveal';
 import homeImg from '../assets/images/card_home_loan_1787567124862.webp';
 import leaseImg from '../assets/images/user_lease_agreement_1787568743485.jpg';
 import carLotImg from '../assets/images/user_car_dealership_1787568727128.webp';
-import bankCardsImg from '../assets/images/user_bank_cards_1787568712617.jpg';
-import phoneLineupImg from '../assets/images/user_phone_contracts_1787568698147.jpeg';
+import bankCardsImg from '../assets/images/markus-winkler-DJoG5GsXfMw-unsplash.jpg';
+import phoneLineupImg from '../assets/images/georgiy-lyamin-PkmlAbLdRhc-unsplash.jpg';
 
 interface LogoBarProps {
   onNavigate?: (path: string) => void;
@@ -65,39 +66,39 @@ export const LogoBar: React.FC<LogoBarProps> = () => {
         {BENEFITS.map((item, i) => {
           const imageOnRight = i % 2 === 0;
           return (
-            <div
-              key={item.title}
-              id={`benefit-row-${i}`}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center"
-            >
-              <div className={imageOnRight ? 'order-1' : 'order-1 lg:order-2'}>
-                <h4 className="display text-[clamp(1.1rem,1.8vw,1.35rem)] text-(--ink) mb-3">
-                  {item.title}
-                </h4>
-                <p className="text-(--ink)/60 text-[clamp(0.9rem,1.2vw,1rem)] leading-relaxed max-w-[40ch] mb-5">
-                  {item.detail}
-                </p>
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-1.5 text-(--accent-fg) text-[0.9rem] font-medium hover:text-(--accent-fg-hover) transition-colors"
-                >
-                  {item.linkLabel} <span className="text-lg">→</span>
-                </a>
-              </div>
-
+            <Reveal key={item.title}>
               <div
-                className={`rounded-[16px] overflow-hidden bg-(--parchment) border border-(--ink)/8 aspect-[4/3] ${
-                  imageOnRight ? 'order-2' : 'order-2 lg:order-1'
-                }`}
+                id={`benefit-row-${i}`}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center"
               >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-center"
-                />
+                <div className={imageOnRight ? 'order-1' : 'order-1 lg:order-2'}>
+                  <h4 className="display text-[clamp(1.1rem,1.8vw,1.35rem)] text-(--ink) mb-3">
+                    {item.title}
+                  </h4>
+                  <p className="text-(--ink)/60 text-[clamp(0.9rem,1.2vw,1rem)] leading-relaxed max-w-[40ch] mb-5">
+                    {item.detail}
+                  </p>
+                  <a
+                    href="#"
+                    className="inline-flex items-center gap-1.5 text-(--accent-fg) text-[0.9rem] font-medium hover:text-(--accent-fg-hover) transition-colors"
+                  >
+                    {item.linkLabel} <span className="text-lg">→</span>
+                  </a>
+                </div>
+
+                <div
+                  className={`rounded-[16px] overflow-hidden bg-(--parchment) border border-(--ink)/8 aspect-[4/3] ${
+                    imageOnRight ? 'order-2' : 'order-2 lg:order-1'
+                  }`}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
               </div>
-            </div>
+            </Reveal>
           );
         })}
       </div>

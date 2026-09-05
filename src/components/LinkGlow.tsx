@@ -34,18 +34,19 @@ export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
   };
 
   return (
-    <section id="security" className="wrap py-12 md:py-16">
-      <div className="relative rounded-[32px] md:rounded-[40px] bg-(--ink) text-(--parchment) overflow-hidden px-6 md:px-14 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-center shadow-2xl border border-(--parchment)/10">
-        <div
-          className="absolute -top-28 -left-20 w-[26rem] h-[26rem] rounded-full bg-(--moss) opacity-25 pointer-events-none"
-          style={{ filter: 'blur(70px)' }}
-        />
-        <div
-          className="absolute -bottom-24 -right-16 w-[20rem] h-[20rem] rounded-full bg-(--olive) opacity-35 pointer-events-none"
-          style={{ filter: 'blur(70px)' }}
-        />
+ 
+    <section id="security" className="w-full bg-(--ink) text-(--parchment) overflow-hidden relative">
+      <div
+        className="absolute -top-28 -left-20 w-[26rem] h-[26rem] rounded-full bg-(--moss) opacity-20 pointer-events-none"
+        style={{ filter: 'blur(90px)' }}
+      />
+      <div
+        className="absolute -bottom-24 -right-16 w-[20rem] h-[20rem] rounded-full bg-(--olive) opacity-25 pointer-events-none"
+        style={{ filter: 'blur(90px)' }}
+      />
 
-        <div className="relative z-10 flex flex-col items-start min-w-0">
+      <div className="wrap py-14 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-10 items-center relative z-10">
+        <div className="flex flex-col items-start min-w-0">
           <span className="text-[clamp(0.72rem,1.6vw,0.85rem)] font-bold text-(--moss) uppercase tracking-wider mb-3 inline-block">
             Security
           </span>
@@ -61,7 +62,7 @@ export const LinkGlow: React.FC<LinkGlowProps> = ({ onNavigate }) => {
           </a>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center justify-center w-full select-none">
+        <div className="flex flex-col items-center justify-center w-full select-none">
           <div
             onClick={toggleLock}
             className="group relative flex flex-col items-center justify-center cursor-pointer transition-transform duration-300 hover:scale-[1.03]"

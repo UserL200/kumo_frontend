@@ -29,7 +29,7 @@ const STEPS: Step[] = [
     num: 'Step One',
     headline: 'Your bank statement is already proof.',
     description:
-      "You don't need to build a case for who you are. Connect once, securely, through a licensed partner — and the payment history that was already there becomes usable.",
+      "You don't need to build a case for who you are. Connect once, securely, through a licensed partner; and the payment history that was already there becomes usable.",
     badge: 'Bank-Grade Open Banking',
   },
   {
@@ -43,7 +43,7 @@ const STEPS: Step[] = [
     num: 'Step Three',
     headline: 'One tap. Not one favor.',
     description:
-      "You confirm it's your rent — that's the only thing we ask of you. No landlord sign-off, no waiting on someone else's word.",
+      "You confirm it's your rent, that's the only thing we ask of you. No landlord sign-off, no waiting on someone else's word.",
     badge: '1-Tap Independent Verification',
   },
   {
@@ -51,7 +51,7 @@ const STEPS: Step[] = [
     headline: 'Consistency should speak for itself.',
     description:
       'Every on-time month gets reported automatically from there. The record builds itself, the same way the payments already did.',
-    badge: 'TransUnion & TPN Synced',
+    badge: 'Bureau Synced',
   },
 ];
 

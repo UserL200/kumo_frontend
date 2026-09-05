@@ -40,7 +40,7 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-(--ink) text-(--parchment) flex flex-col font-['Suisse_Intl',_-apple-system,_BlinkMacSystemFont,_'Segoe_UI',_Roboto,_sans-serif] overflow-x-clip w-full selection:bg-(--moss) selection:text-(--ink)">
+    <div className="min-h-screen bg-(--parchment) text-(--ink) flex flex-col font-['Suisse_Intl',_-apple-system,_BlinkMacSystemFont,_'Segoe_UI',_Roboto,_sans-serif] w-full selection:bg-(--moss) selection:text-(--ink)">
       {/* 1. Header Navigation */}
       <Header
         activeView={view}
@@ -50,8 +50,8 @@ export const LandingPage: React.FC = () => {
         onOpenLogin={openLogin}
       />
 
-      {/* Main Content Container with Rounded Bottom for Reveal Shell */}
-      <main className="relative z-10 bg-(--parchment) mx-2 md:mx-4 rounded-[28px] md:rounded-[40px] overflow-x-hidden shadow-2xl pb-6 border border-(--parchment)/20">
+      {/* Main Content  */}
+      <main className="relative z-10 flex flex-col">
         {/* 2. Hero Component */}
         <Hero
           view={view}
@@ -59,70 +59,61 @@ export const LandingPage: React.FC = () => {
           onOpenSignup={openSignup}
         />
 
-        {/* 3. Manifesto — audience-aware */}
+        {/* 3. Manifesto */}
         <Reveal>
           <Manifesto audience={view === 'business' ? 'landlord' : 'tenant'} />
         </Reveal>
 
-        {/* 4. FeatureSplit — shared, view-aware. Replaces BusinessSplit;
-            gives both audiences the same "quick hit" split block before
-            branching into deeper, audience-specific content below. */}
-        {/* <Reveal>
+        {/* 4. FeatureSplit  */}
+        <Reveal>
           <FeatureSplit view={view} onNavigate={handleNavigate} onActionClick={() => openSignup(view)} />
-        </Reveal> */}
+        </Reveal>
 
         {/* Dynamic View Sections */}
         {view === 'tenant' ? (
           <div id="tenant-panel" className="flex flex-col">
-            {/* 5. Credit-score benefit rows */}
-            <Reveal>
-              <LogoBar onNavigate={handleNavigate} />
-            </Reveal>
+            {/* LogoBar handles its own per-row Reveal internally now,
+                so it isn't wrapped here, avoids double-wrapping. */}
+            <LogoBar onNavigate={handleNavigate} />
 
-            {/* 6. Sticky Scroll Story with Phone Mockup — has its own
-                internal id="how-it-works", so no wrapping div/id here
-                (avoids the duplicate-id bug from the previous version) */}
             <ScrollStory />
 
-            {/* 7. Flip-Tile Housing Situations Grid */}
             <Reveal>
               <FlipGrid />
             </Reveal>
 
-            {/* 8. Bank-Link Security Section */}
             <Reveal>
               <LinkGlow onNavigate={handleNavigate} />
             </Reveal>
           </div>
         ) : (
           <div id="business-panel" className="flex flex-col">
-            {/* 5. Landlord Benefits Expand Grid */}
             <Reveal>
               <ExpandGrid />
             </Reveal>
           </div>
         )}
 
-        {/* 9. FAQ Accordion — view-aware */}
+        {/* FAQ Accordion */}
         <Reveal>
           <FAQ view={view} />
         </Reveal>
 
-        {/* 10. Compact step recap, right before the final ask */}
-        {/* <Reveal>
+        {/* Compact step recap, right before the final ask
+        <Reveal>
           <StepBand onNavigate={handleNavigate} />
         </Reveal> */}
 
-        {/* 11. Large Glowing CTA — final close */}
+        {/* Large Glowing */}
         <Reveal>
           <LargeCTA onOpenSignup={() => openSignup(view)} />
         </Reveal>
       </main>
 
-      {/* 12. Fixed Bottom Footer */}
+      {/* Footer */}
       <Footer onNavigate={handleNavigate} onOpenSignup={openSignup} />
 
-      {/* 13. Signup / Login Interactive Modal */}
+      {/* Signup / Login Interactive Modal */}
       <SignupModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

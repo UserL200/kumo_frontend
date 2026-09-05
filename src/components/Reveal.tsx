@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export const Reveal: React.FC<{ children: React.ReactNode; className?: string }> = ({
+export const Reveal: React.FC<{ children: React.ReactNode; className?: string; delay?: number }> = ({
   children,
   className,
+  delay = 0,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -24,16 +25,19 @@ export const Reveal: React.FC<{ children: React.ReactNode; className?: string }>
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
+          // Small stagger support via the delay prop, so sibling
+          // sections (or elements within one) can reveal a beat apart
+          // instead of all snapping in at once.
+          window.setTimeout(() => setVisible(true), delay);
           io.disconnect();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
     );
 
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [delay]);
 
   return (
     <div
@@ -41,9 +45,8 @@ export const Reveal: React.FC<{ children: React.ReactNode; className?: string }>
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(1.25rem)',
-        transition:
-          'opacity 520ms cubic-bezier(0.38,0.13,0,0.88), transform 520ms cubic-bezier(0.38,0.13,0,0.88)',
+        transform: visible ? 'translateY(0)' : 'translateY(20px)',
+        transition: 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)',
       }}
     >
       {children}

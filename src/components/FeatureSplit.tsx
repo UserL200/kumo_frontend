@@ -1,4 +1,6 @@
 import React from 'react';
+import featureSplitTenantImg from '../assets/images/feature_split_tenant.png';
+import bankSecurityImg from '../assets/images/bank_security_visual_1787470823806.jpg';
 
 interface FeatureSplitProps {
   onNavigate?: (path: string) => void;
@@ -20,7 +22,8 @@ export const FeatureSplit: React.FC<FeatureSplitProps> = ({
         paragraph:
           'Securely link your account once. We detect your recurring rent payment automatically and report it monthly, so your history builds itself in the background.',
         button: 'See how it works',
-        placeholder: 'Screenshot: bank link flow',
+        image: featureSplitTenantImg,
+        imageAlt: 'Bank account link flow in the Kumo app',
       }
     : {
         eyebrow: 'No work for you',
@@ -28,7 +31,8 @@ export const FeatureSplit: React.FC<FeatureSplitProps> = ({
         paragraph:
           "Tenants opt in and connect their own bank account. You're not asked to confirm payments, share records, or take on any reporting responsibility. Your property just becomes one where tenants have a reason to pay on time and build something from it.",
         button: 'Learn more',
-        placeholder: 'Verified property management portfolio',
+        image: bankSecurityImg,
+        imageAlt: 'Verified property management portfolio',
       };
 
   return (
@@ -68,14 +72,17 @@ export const FeatureSplit: React.FC<FeatureSplitProps> = ({
             </button>
           </div>
 
-          {/* Right Column: Media Placeholder */}
+          {/* Right Column: Media */}
           <div
             id="feature-media-placeholder"
-            className="w-full aspect-square rounded-[24px] bg-(--parchment) border border-(--ink)/8 flex items-center justify-center p-8 text-center min-w-0"
+            className="w-full aspect-square rounded-[24px] bg-(--parchment) border border-(--ink)/8 overflow-hidden relative shadow-lg group min-w-0"
           >
-            <span className="text-[clamp(0.72rem,1.6vw,0.85rem)] font-medium text-(--ink)/70">
-              {content.placeholder}
-            </span>
+            <img
+              src={content.image}
+              alt={content.imageAlt}
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
           </div>
         </div>
       </div>

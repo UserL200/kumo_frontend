@@ -18,7 +18,7 @@ interface SignupModalProps {
 const MIN_FORM_FILL_TIME_MS = 2000;
 
 const WAITLIST_SUCCESS_MESSAGE =
-  "You're on the waiting list. Check your inbox for a confirmation email — we'll let you know as soon as bank verification is ready and you can link your account.";
+  "You're on the waiting list. Check your inbox for a confirmation email. We look forward to building with you";
 
 export const SignupModal: React.FC<SignupModalProps> = ({
   isOpen,
@@ -37,8 +37,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
 
   const openedAtRef = useRef<number | null>(null);
 
-  // Record when the modal actually opened, per open — used for the
-  // minimum-fill-time anti-spam check on submit.
+
   useEffect(() => {
     if (isOpen) {
       openedAtRef.current = Date.now();
@@ -63,10 +62,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
   const emailValid = isValidEmail(email);
   const phoneValid = isValidSaPhone(phone);
 
-  // A submit implausibly fast after the modal opened is a common bot
-  // tell. Real honeypot detection happens server-side regardless (the
-  // backend checks the same "website" field) — this local check just
-  // saves a network round trip for the most obvious bots.
+
   const submittedTooFast = () => {
     const openedAt = openedAtRef.current;
     return !!openedAt && Date.now() - openedAt < MIN_FORM_FILL_TIME_MS;
@@ -79,8 +75,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
     if (!emailValid || !phoneValid) return;
 
     if (submittedTooFast()) {
-      // Show the normal success copy without hitting the network —
-      // don't tip off a script that it was caught.
+    
       setSuccessMessage(WAITLIST_SUCCESS_MESSAGE);
       return;
     }

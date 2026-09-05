@@ -15,7 +15,7 @@ const CONTENT: Record<Audience, ManifestoContent> = {
     eyebrow: 'Why Kumo',
     headline: "Nobody built a system for people who pay in cash and EFT.",
     body: [
-      "Credit bureaus track loans and accounts. They've never tracked rent — even though for most tenants, it's the largest, most consistent payment they make every month.",
+      "Credit bureaus track loans and accounts. They've never tracked rent: even though for most tenants, it's the largest, most consistent payment they make every month.",
       "Kumo reads what's already sitting in your bank statement and turns it into a record you can actually use.",
     ],
     closing: "Not new credit. The credit you already earned.",
@@ -24,7 +24,7 @@ const CONTENT: Record<Audience, ManifestoContent> = {
     eyebrow: 'Why Kumo',
     headline: "References are just someone's word. Statements aren't.",
     body: [
-      "A landlord reference varies from one call to the next — a favor, a guess, sometimes nothing at all. None of it is verifiable, and none of it is consistent.",
+      "A landlord reference varies from one call to the next: a favor, a guess, sometimes nothing at all. None of it is verifiable, and none of it is consistent.",
       "Kumo reads directly from a tenant's bank statement and verifies the pattern: on time, in full, month after month. Nothing self-reported, nothing you have to take on faith.",
     ],
     closing: "Not a favor. A record you can rely on.",
@@ -65,7 +65,6 @@ export const Manifesto: React.FC<ManifestoProps> = ({ audience = 'tenant' }) => 
           </p>
         </div>
 
-        {/* Visual column — small, quiet, no bleed / no rotation */}
         <div className="flex items-center justify-center md:justify-end">
           <div className="w-40 h-40 md:w-48 md:h-48 rounded-full bg-(--parchment) border border-(--ink)/8 flex items-center justify-center">
             <KumoLogo size={72} className="text-(--ink)/70" />

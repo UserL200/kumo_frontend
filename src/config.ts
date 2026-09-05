@@ -10,7 +10,7 @@ export const BANK_LINK_REDIRECT_URI = '/bank-link/callback';
  * Backend integration helper stubs
  *
  * NOTE: Most of the Java backend does not have live endpoints wired up
- * yet — those functions below still simulate a network round trip and
+ * yet those functions below still simulate a network round trip and
  * log the request they would make. signupWaitlist is the exception:
  * it now calls the real /api/v1/waitlist/join endpoint, since that
  * backend controller exists.
@@ -45,14 +45,14 @@ export async function signupTenant(payload: TenantSignupPayload): Promise<{ succ
 }
 
 /**
- * Tenant waitlist signup — used in place of the full bank-link signup
+ * Tenant waitlist signup is used in place of the full bank-link signup
  * flow while bank-verification partnerships are still being secured.
  *
  * This is wired to the real Java endpoint: POST /api/v1/waitlist/join
  * (see WaitlistController.java). The backend re-validates everything
  * itself and always responds with the same generic success message,
  * whether the email is brand new, already on the list, or caught by
- * the server-side honeypot/rate-limit checks — so this function never
+ * the server-side honeypot/rate-limit checks, so this function never
  * needs to distinguish those cases, it just surfaces a real failure
  * (network error, validation error, rate limited) if one occurs.
  */
@@ -61,7 +61,7 @@ export interface WaitlistSignupPayload {
   phone: string;
   // Honeypot value from the frontend form. Real users never fill
   // this; if it's non-empty the backend treats the submission as
-  // spam. Passed through as-is — the frontend doesn't need to make
+  // spam. Passed through as-is; the frontend doesn't need to make
   // its own judgment call about it, the backend already will.
   honeypot?: string;
 }
@@ -85,7 +85,7 @@ export async function signupWaitlist(payload: WaitlistSignupPayload): Promise<{ 
         message = errorBody.error;
       }
     } catch {
-      // Response body wasn't JSON (e.g. a proxy error page) — fall
+      // Response body wasn't JSON (e.g. a proxy error page), fall
       // back to the generic message above.
     }
     throw new Error(message);
@@ -108,7 +108,7 @@ export async function signupLandlord(payload: LandlordSignupPayload): Promise<{ 
 
 /**
  * Client-side validation helpers.
- * These are a first line of defence for UX only — the Java backend
+ * These are a first line of defence for UX only, the Java backend
  * must re-validate everything server-side once it's wired up, since
  * client-side checks can always be bypassed.
  */
