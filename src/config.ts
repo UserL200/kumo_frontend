@@ -2,7 +2,7 @@
  * Kumo Configuration Constants
  * Centralized API & Provider configuration
  */
-export const API_BASE_URL = '/api';
+export const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'https://kumo-production-80cb.up.railway.app/api';
 export const BANK_LINK_PROVIDER: 'stitch' | 'truid' = 'bank verification';
 export const BANK_LINK_REDIRECT_URI = '/bank-link/callback';
 
