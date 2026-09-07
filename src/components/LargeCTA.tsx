@@ -26,7 +26,7 @@ export const LargeCTA: React.FC<LargeCTAProps> = ({ view = 'tenant', onOpenSignu
         {/* Foreground Content */}
         <div className="relative z-10 flex flex-col items-center max-w-2xl mx-auto">
           <h2 className="display text-[clamp(2rem,5.5vw,3.8rem)] text-(--parchment) mb-8 leading-tight">
-            {isBusiness ? 'Start verifying rent payments today' : 'Start building your record today'}
+            {isBusiness ? 'Join the network today' : 'Start building your record today'}
           </h2>
 
           <button
