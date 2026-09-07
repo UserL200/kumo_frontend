@@ -1,10 +1,13 @@
 import React from 'react';
 
 interface LargeCTAProps {
+  view?: 'tenant' | 'business';
   onOpenSignup?: () => void;
 }
 
-export const LargeCTA: React.FC<LargeCTAProps> = ({ onOpenSignup }) => {
+export const LargeCTA: React.FC<LargeCTAProps> = ({ view = 'tenant', onOpenSignup }) => {
+  const isBusiness = view === 'business';
+
   return (
     <section id="cta-section" className="wrap py-10 md:py-16">
       <div className="relative isolate overflow-hidden rounded-[32px] md:rounded-[48px] bg-(--ink) min-h-[clamp(20rem,40vw,28rem)] flex items-center justify-center text-center p-8 md:p-16 border border-(--parchment)/10 shadow-2xl">
@@ -23,7 +26,7 @@ export const LargeCTA: React.FC<LargeCTAProps> = ({ onOpenSignup }) => {
         {/* Foreground Content */}
         <div className="relative z-10 flex flex-col items-center max-w-2xl mx-auto">
           <h2 className="display text-[clamp(2rem,5.5vw,3.8rem)] text-(--parchment) mb-8 leading-tight">
-            Start building your record today
+            {isBusiness ? 'Start verifying rent payments today' : 'Start building your record today'}
           </h2>
 
           <button

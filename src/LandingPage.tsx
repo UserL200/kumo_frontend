@@ -72,15 +72,15 @@ export const LandingPage: React.FC = () => {
         {/* Dynamic View Sections */}
         {view === 'tenant' ? (
           <div id="tenant-panel" className="flex flex-col">
+            <Reveal>
+              <FlipGrid />
+            </Reveal>
+
             {/* LogoBar handles its own per-row Reveal internally now,
                 so it isn't wrapped here, avoids double-wrapping. */}
             <LogoBar onNavigate={handleNavigate} />
 
             <ScrollStory />
-
-            <Reveal>
-              <FlipGrid />
-            </Reveal>
 
             <Reveal>
               <LinkGlow onNavigate={handleNavigate} />
@@ -106,7 +106,7 @@ export const LandingPage: React.FC = () => {
 
         {/* Large Glowing */}
         <Reveal>
-          <LargeCTA onOpenSignup={() => openSignup(view)} />
+          <LargeCTA view={view} onOpenSignup={() => openSignup(view)} />
         </Reveal>
       </main>
 
