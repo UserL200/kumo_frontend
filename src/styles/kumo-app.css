@@ -1,0 +1,95 @@
+/* Dashboard and auth screens. Uses the palette and fonts from index.css
+   (--ink, --olive, --moss, --parchment, --font-display, --font-body). */
+
+.kumo-app {
+  --line: rgba(13, 13, 13, 0.18);
+  --soft: rgba(13, 13, 13, 0.64);
+  --error: #b3261e; /* the one colour outside the palette: errors and disputes need to read as warnings */
+  --card: color-mix(in srgb, #ffffff 55%, var(--parchment));
+  min-height: 100vh;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.kumo-app :focus-visible { outline: 3px solid var(--olive); outline-offset: 2px; }
+
+.kumo-app .topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0.9rem clamp(1rem, 4vw, 2.5rem);
+  background: var(--olive); color: var(--parchment);
+}
+.kumo-app .brand { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em; margin: 0; }
+.kumo-app .who { display: flex; gap: 1rem; align-items: center; font-size: 0.9rem; }
+.kumo-app .topbar .link-btn { color: var(--parchment); }
+
+.kumo-app .app-wrap { max-width: 1040px; margin: 0 auto; padding: 1.75rem clamp(1rem, 4vw, 2.5rem) 4rem; }
+.kumo-app h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.8rem, 4.5vw, 2.6rem); letter-spacing: -0.03em; line-height: 1.05; margin: 0.4rem 0 0.4rem; }
+.kumo-app h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.01em; margin: 0 0 0.75rem; }
+.kumo-app .lede { color: var(--soft); margin: 0 0 1.5rem; max-width: 60ch; }
+
+.kumo-app .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-xl); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+.kumo-app .panel.sand { background: color-mix(in srgb, var(--moss) 45%, var(--parchment)); border-color: transparent; }
+
+/* The rent ledger: six months, one tile each. The one memorable element. */
+.kumo-app .ledger { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.5rem; margin: 0.9rem 0 0; padding: 0; list-style: none; }
+.kumo-app .tile { border-radius: var(--radius-md); padding: 0.7rem 0.3rem; text-align: center; border: 2px solid var(--line); font-size: 0.78rem; min-height: 4.4rem; display: flex; flex-direction: column; justify-content: center; gap: 0.15rem; }
+.kumo-app .tile b { font-family: var(--font-display); font-size: 1rem; }
+.kumo-app .tile.confirmed { background: var(--moss); border-color: var(--olive); color: var(--ink); }
+.kumo-app .tile.pending { border-style: dashed; border-color: var(--soft); }
+.kumo-app .tile.disputed { border-color: var(--error); color: var(--error); }
+.kumo-app .tile.none { color: var(--soft); }
+.kumo-app .streak { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+.kumo-app .streak strong { font-family: var(--font-display); font-size: 3.4rem; line-height: 1; letter-spacing: -0.04em; }
+
+.kumo-app table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+.kumo-app th { text-align: left; font-weight: 600; color: var(--soft); padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--line); }
+.kumo-app td { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.kumo-app .table-scroll { overflow-x: auto; }
+
+.kumo-app .pill { display: inline-block; padding: 0.1rem 0.65rem; border-radius: var(--radius-pill); font-size: 0.8rem; font-weight: 600; border: 1px solid currentColor; }
+.kumo-app .pill.confirmed { color: var(--accent-fg-hover); background: color-mix(in srgb, var(--moss) 55%, transparent); }
+.kumo-app .pill.pending { color: var(--soft); }
+.kumo-app .pill.disputed { color: var(--error); }
+
+.kumo-app .field { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.8rem; }
+.kumo-app .field label { font-weight: 600; font-size: 0.88rem; }
+.kumo-app .field input, .kumo-app .field select {
+  font: inherit; color: inherit; background: var(--parchment);
+  padding: 0.65rem 0.9rem; border: 1px solid var(--soft); border-radius: var(--radius-lg); min-height: 46px;
+}
+.kumo-app .row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: flex-end; }
+.kumo-app .row .field { flex: 1 1 140px; margin-bottom: 0; }
+
+.kumo-app .btn { font: inherit; font-weight: 700; border-radius: var(--radius-pill); padding: 0.6rem 1.3rem; min-height: 46px; cursor: pointer; border: 2px solid var(--ink); background: transparent; color: var(--ink); }
+.kumo-app .btn.primary { background: var(--ink); color: var(--parchment); }
+.kumo-app .btn.primary:hover:not(:disabled) { opacity: 0.88; }
+.kumo-app .btn.small { min-height: 36px; padding: 0.3rem 0.9rem; font-size: 0.85rem; }
+.kumo-app .btn.danger { border-color: var(--error); color: var(--error); }
+.kumo-app .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.kumo-app .link-btn { background: none; border: 0; font: inherit; color: var(--accent-fg-hover); text-decoration: underline; cursor: pointer; padding: 0; }
+
+.kumo-app .error { color: var(--error); font-weight: 600; margin: 0.5rem 0; }
+.kumo-app .hint { color: var(--soft); font-size: 0.88rem; }
+.kumo-app .empty { color: var(--soft); padding: 0.5rem 0; }
+
+.kumo-app .meter { height: 12px; border-radius: var(--radius-pill); background: rgba(13, 13, 13, 0.12); overflow: hidden; margin: 0.4rem 0; }
+.kumo-app .meter > span { display: block; height: 100%; background: var(--olive); }
+.kumo-app .stat-line { display: flex; justify-content: space-between; gap: 1rem; padding: 0.35rem 0; border-bottom: 1px solid var(--line); }
+.kumo-app .stat-line.error { color: var(--error); }
+
+.kumo-app.auth-card { max-width: 460px; margin: 0 auto; padding: 3rem 1.25rem; min-height: 100vh; }
+.kumo-app .seg { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.kumo-app .seg label { flex: 1; position: relative; border: 2px solid var(--line); border-radius: var(--radius-lg); padding: 0.65rem; cursor: pointer; font-weight: 600; text-align: center; font-size: 0.9rem; }
+.kumo-app .seg input { position: absolute; opacity: 0; }
+.kumo-app .seg label:has(input:checked) { border-color: var(--olive); background: color-mix(in srgb, var(--moss) 50%, var(--parchment)); }
+.kumo-app .seg label:has(input:focus-visible) { outline: 3px solid var(--olive); outline-offset: 2px; }
+.kumo-app .invite-link { word-break: break-all; background: color-mix(in srgb, var(--moss) 45%, var(--parchment)); padding: 0.55rem 0.8rem; border-radius: var(--radius-md); font-size: 0.88rem; }
+
+.kumo-app .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .kumo-app .meter > span { transition: width 0.4s ease; }
+}

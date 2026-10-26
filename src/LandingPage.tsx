@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from './components/Header.tsx';
 import { Hero } from './components/Hero.tsx';
 import { LogoBar } from './components/LogoBar.tsx';
@@ -16,6 +17,7 @@ import { Reveal } from './components/Reveal.tsx';
 import { Manifesto } from './components/Manifesto.tsx';
 
 export const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
   const [view, setView] = useState<'tenant' | 'business'>('tenant');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'tenant' | 'business' | 'login'>('tenant');
@@ -25,10 +27,8 @@ export const LandingPage: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const openLogin = () => {
-    setModalMode('login');
-    setIsModalOpen(true);
-  };
+  // Sign in now goes to the real login page instead of the old magic-link modal.
+  const openLogin = () => navigate('/login');
 
   const handleNavigate = (path: string) => {
     if (path.startsWith('#')) {
